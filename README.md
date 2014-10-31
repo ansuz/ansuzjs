@@ -89,3 +89,11 @@ I'm a big fan of minimalism, and for any given task, there's probably a lot incl
 If you look in lib/deps, you'll find `deps.js`, a tiny dependency manager. I've detailed in sourcetree.json (which is actually an informal format called "cjdson") which functions depend on each other. You can generate a list of what functions are actually necessary for your purposes by entering their names into the array in `need.json`. call deps.js, and it will produce the full array of dependencies.
 
 I've written these libs to have minimal dependencies, but as it grows I may need to compromise that ideal. This system should help with that, and I plan to improve these script to automatically generate dependencies by interpreting your source code directly. WEEEEEEEeeeeeeeeeeeeeee!
+
+## Contributions
+
+I've included `bignumber.js`, `ki.js`, and `ki.extend.js`. All of these will work in the browser. The bignum library works locally as well, while the latter two are limited to the browser (since they're for working with the DOM). 
+
+I'll be giving them the `deps.js` treatment as well, so you will be able to write minimal, functional, powerful clientside code without falling into the jquery pit of despair.
+
+
