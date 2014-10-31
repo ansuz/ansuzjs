@@ -81,3 +81,11 @@ I consider this a very early version of a more complex suite of tools, but its g
 3. Encourage the programmer to write small, modular, legible software.
 
 If you're a data scientist or statistician, these libraries should help free you from the burden of constantly shifting approaches depending on the format of your information. Specify what you want, and how you want to get it, and allow the machine to take care of the repetitive aspects of your task.
+
+## Additional notes
+
+I'm a big fan of minimalism, and for any given task, there's probably a lot included in these source files that you won't use. For that reason, I've started working on some tools to sort out what you actually need.
+
+If you look in lib/deps, you'll find `deps.js`, a tiny dependency manager. I've detailed in sourcetree.json (which is actually an informal format called "cjdson") which functions depend on each other. You can generate a list of what functions are actually necessary for your purposes by entering their names into the array in `need.json`. call deps.js, and it will produce the full array of dependencies.
+
+I've written these libs to have minimal dependencies, but as it grows I may need to compromise that ideal. This system should help with that, and I plan to improve these script to automatically generate dependencies by interpreting your source code directly. WEEEEEEEeeeeeeeeeeeeeee!
