@@ -1,0 +1,62 @@
+{
+  /* This is what some of us
+    in the ProjectMeshnetCommunity
+    call cjdson, because cjd uses it
+    it's standard json, except
+    that it includes js style comments */
+
+// so you can have multiline comments
+// or single line comments
+// which makes configuration with json files
+// a little easier
+
+// below are the functions included in this repository
+// and arrays of the functions they depend on
+// specify what you need in another file
+// and it will figure out your dependencies
+// I'm gonna do more to automate it in the future
+
+/* these functions are currently found in van.js */
+
+  "fixN":[],
+  "fix1":[],
+  "fix2":[],
+  "negate":[],
+  "compose":[],
+  "sum":[],
+  "range":[],
+  "nullArray":[],
+  "flatten":[],
+  "carte":[],
+  "carteSquare":[],
+  "die":[],
+  "shuffle":["die"],
+  "cut":[],
+  "exists":[],
+  "vals":[],
+  "keys":[],
+  "merge":[],
+  "is":[],
+  "stdDev":["sum"],
+  "schedule":[],
+
+
+/* Generator functions */
+
+
+  "forget":[],
+  "stateful":[],
+  "memo":[],
+  "cycle":[],
+  "fcycle":[],
+  "fail":[],
+  "done":[],
+  "first":["fail"],
+  "all":["fail"],
+  "listall":["fail"],
+  "filter":["fail"],
+  "cons":["done","fail"],
+  "chain":["fail","done"],
+  "combinatorial":["fail","done"]
+
+}
