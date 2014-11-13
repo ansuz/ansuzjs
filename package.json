@@ -24,6 +24,5 @@
   },
   "homepage": "https://github.com/ansuz/ansuzjs",
   "dependencies": {
-    "buster": "^0.7.16"
   }
 }
