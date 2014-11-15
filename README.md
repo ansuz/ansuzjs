@@ -1,6 +1,8 @@
 ansuzjs
 =======
 
+[![NPM](https://nodei.co/npm/ansuz.png)](https://nodei.co/npm/ansuz/)
+
 higher order functions for function composition, laziness, backtracking, and other magic
 
 ```quote
