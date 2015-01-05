@@ -75,6 +75,7 @@ var flatten=ansuz.flatten=function (AA){
 };
 
 var carte=ansuz.carte=function (f,A,B){
+  //[fix1]
 /* map a binary function over the cartesian product of arrays */
   return A.map(function(a){
     return B.map(fix1(f,a));
@@ -82,11 +83,13 @@ var carte=ansuz.carte=function (f,A,B){
 };
 
 var carteSquare=ansuz.carteSquare=function (f,A){
+  //[carte]
 /* easy wrapper around carte for when you want a square */
   return carte(f,A,A);
 };
 
 var comb=ansuz.comb=function (f,A){
+  //[fix1]
  /*  produce a heteroansuz.us array consisting of all
     unique pairwise combinations of elements from an array */
 
@@ -128,6 +131,7 @@ var cut=ansuz.cut=function (A,n){
 };
 
 var exists=ansuz.exists=function (A,e){
+  //[isArray]
 /* test if an element exists in an array */
   if(isArray(A)) return (A.indexOf(e)!==-1)?true:false;
   if(typeof A==='object')return (e in A);
@@ -151,11 +155,12 @@ var clone=ansuz.clone=function(A){
 };
 
 var merge=ansuz.merge=function (X,B,f){
+  //[clone,keys]
  /*  merge two objects, 
     resolve conflicts with a third, optional argument, a function f
     which overwrites attributes of the first with the second by default */
 
-var A=clone(X); // don't break the original
+  var A=clone(X); // don't break the original
   f=f||function(a,b){return b;}; // default behaviour in conflict is overwrite
   keys(B).map(function(b){ // just for side effects
     A[b]=(b in A)?
@@ -171,6 +176,7 @@ var is=ansuz.is=function (a,b){
 };
 
 var stdDev=ansuz.stdDev=function (A){
+  //[sum]
 /* take the standard deviation of an array of numbers */
   var S = sum(A),
   L = A.length;
@@ -288,6 +294,7 @@ var done=ansuz.done=function (){
 };
 
 var first=ansuz.first=function (lz,n,cond){
+  //[fail]
 /* a little misleading, get the next N elements from a generator */
   var i=0; // what element are we currently working on?
   n=n||1; // default number of elements to return
@@ -302,6 +309,7 @@ var first=ansuz.first=function (lz,n,cond){
 };
 
 var all=ansuz.all=function (lz,cond){
+  //[fail]
 /* generate (and discard) all elements of a lazy list (potentially infinite!!!) */
   cond=cond||ansuz.fail;
   while(1){
@@ -310,6 +318,7 @@ var all=ansuz.all=function (lz,cond){
 };
 
 var listall=ansuz.listall=function (lz,cond){
+  //[fail]
 /* generate (and collect) all elements of a lazy list (potentially infinite!!!) */
   cond=cond||ansuz.fail;
   var acc=[];
@@ -322,6 +331,7 @@ var listall=ansuz.listall=function (lz,cond){
 };
 
 var filter=ansuz.filter=function (lz,sat,cond){
+  //[fail]
 /*  return a function which takes a lazy list
     and returns the next element from that list that matches some predicate */
 
@@ -339,6 +349,7 @@ sat=sat||function(x){return true;};
 };
 
 var cons=ansuz.cons=function (lz,next,cond,done){
+  //[done,fail]
 /* return a construct a generator which produces elements
     from the concatenation of two lazy lists */
 
@@ -362,6 +373,7 @@ var cons=ansuz.cons=function (lz,next,cond,done){
 }
 
 var chain=ansuz.chain=function (F,cond,done){ 
+  //[fail,done,cons]
 /* chain together an array of lazy generators */ 
   cond=cond||ansuz.fail;
   done=done||ansuz.done;
@@ -376,12 +388,13 @@ var chain=ansuz.chain=function (F,cond,done){
 };
 
 var combinatorial=ansuz.combinatorial=function (f,g,cond,done){
+  //[fail,done,either]
 /* an attempt at backtracking */
   cond=cond||ansuz.fail; // default to a standard fail condition
   done=done||ansuz.done; // default to a standard callback
   var temp; // a temp variable to store the latest parent value
   var kid; // a variable to store the current child generator
-  var fz=ansuz.either(f); // the parent function
+  var fz=either(f); // the parent function
   var failed=false; // track if the parent function has failed
   var par=function(){ // this is the parent function handler
     temp=fz(); // it increments the parent function and stores the value in temp
@@ -389,7 +402,7 @@ var combinatorial=ansuz.combinatorial=function (f,g,cond,done){
       failed=true; // indicate that
       return; // and return
     } // but you still have a child function to pass over
-    kid=ansuz.either(g); // generate it
+    kid=either(g); // generate it
   };
   par(); // now that the parent handler is defined, increment it
   var fn=function(){ // the main generator you'll return
@@ -440,13 +453,14 @@ var ngraphs=ansuz.ngraphs=function(S,n,d){
 };
 
 var choose=ansuz.choose=function(A){
+  //[die,keys]
 /*  choose accepts an array, string, or object
     it chooses and returns an element, attribute, or character */
   if(typeof A === 'string')
     A=A.split("");
   if(typeof A === 'object')
    return (function(){
-        var T=Object.keys(A);
+        var T=keys(A);
         return A[T[die(T.length)]];
       })();
   return A[die(A.length)];
@@ -454,25 +468,90 @@ var choose=ansuz.choose=function(A){
 
 
 var unique=ansuz.unique=function(A){
+  //[keys]
 /*  Accept an array
     return a copied array with duplicate elements removed 
     WARNING:: returns values as strings!!!
     */
   var U={};
   A.map(function(x){U[x]=true;});
-  return Object.keys(U);
+  return keys(U);
 };
 
 var weightedArray=ansuz.weightedArray=function(C){
+  //[flatten,nullArray,keys]
 /*  chooseWeighted accepts an object C, in which keys correspond to integers
     each integer corresponding to the occurences of that key in a corpus,
     and a key k, which is taken as */
-  return flatten(Object.keys(C).map(function(k){
+  return flatten(keys(C).map(function(k){
     return nullArray(C[k]).map(function(x){
       return k;
     });
   }));
 };
+
+var meta=ansuz.meta=function(D,L){ // a list of deps and an optional lib
+  //[keys,vals,unique,flatten] // functions must be annotated like so.
+  var L=L||ansuz; // use this for other compliant libraries, default to ansuz
+  // only the first matched dependency array will be used
+  // put it at the top of your function!
+  var F=keys(ansuz); // an array of all the functions
+  var R={};
+  F.map(function(f){
+    var d;
+    ansuz[f].toString()
+      .replace(/\/\/\[.*\]/,function(deps){
+        d=deps;
+      });
+    R[f]=d?d.slice(3,-1).split(","):[];
+  });
+
+//  console.log(R);
+
+  var C={};
+  var getDepsOf=function(d){
+    if(!C[d]){
+      C[d]=R[d]||true; // DRY
+      R[d].map(getDepsOf);
+    }
+  };
+
+  flatten(D.map(function(d){
+    return R[d];
+  })).map(getDepsOf);
+  return keys(C);  
+};
+
+var compile=ansuz.compile=function(D,L,T){
+  //[swap]
+  L=L||ansuz;
+  T=T||'$';
+
+
+  // boilerplate
+  var plate=function(){/*var {TITLE}={};
+
+{BODY}
+
+if(typeof module!== 'undefined')
+  module.exports={TITLE}
+*/}.toString().slice(14,-3);
+
+  var B=D.map(function(d){
+    return swap("var {FUNCTION}={TITLE}.{FUNCTION}={SOURCE};"
+      ,{'{TITLE}':T
+        ,'{FUNCTION}':d
+        ,'{SOURCE}':L[d].toString()
+      });
+  }).join("\n\n")
+
+  return swap(plate
+    ,{
+      '{TITLE}':T
+      ,'{BODY}':B
+    });
+};
+
 
 if(typeof module !== 'undefined')
   module.exports=ansuz;
