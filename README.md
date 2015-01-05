@@ -6,18 +6,18 @@ ansuzjs
 higher order functions for function composition, laziness, backtracking, and other magic
 
 ```quote
-  “We need to make books cool again.
-  If you go home with somebody
-  and they don't have books,
-  don't fuck them.”
-― John Waters 
+  “We need to make books cool again.  
+  If you go home with somebody  
+  and they don't have books,  
+  don't fuck them.”  
+― John Waters  
 ```
 
 ermm.. s/books/functional js/g
 
 yea.
 
-***************
+****
 
 I use Javascript for just about everything these days. The language features that I actually use only comprise a very small fraction of the language, though.
 
@@ -58,6 +58,7 @@ Some people complain that some of Javascript's core functionality is lacking. Pe
 * lazy tree traversal (backtracking and on-demand computation)
 * safe concatenation of potentially infinite sequences
 
+For detailed instructions on how to use all of these functions, see `MANUAL.md`, or look in `./examples/`.
 ## Is this production ready?
 
 **Such enterprise. Wow**.
@@ -82,16 +83,6 @@ I consider this a very early version of a more complex suite of tools, but its g
 
 If you're a data scientist or statistician, these libraries should help free you from the burden of constantly shifting approaches depending on the format of your information. Specify what you want, and how you want to get it, and allow the machine to take care of the repetitive aspects of your task.
 
-## Additional notes
-
-I'm a big fan of minimalism, and for any given task, there's probably a lot included in these source files that you won't use. For that reason, I've started working on some tools to sort out what you actually need.
-
-If you look in lib/deps, you'll find `deps.js`, a tiny dependency manager. I've detailed in sourcetree.json (which is actually an informal format called "cjdson") which functions depend on each other. You can generate a list of what functions are actually necessary for your purposes by entering their names into the array in `need.json`. call deps.js, and it will produce the full array of dependencies.
-
-I've written these libs to have minimal dependencies, but as it grows I may need to compromise that ideal. This system should help with that, and I plan to improve these script to automatically generate dependencies by interpreting your source code directly. WEEEEEEEeeeeeeeeeeeeeee!
-
 ## Contributions
 
-I've included `bignumber.js`, `ki.js`, and `ki.extend.js`. All of these will work in the browser. The bignum library works locally as well, while the latter two are limited to the browser (since they're for working with the DOM). 
-
-I'll be giving them the `deps.js` treatment as well, so you will be able to write minimal, functional, powerful clientside code without falling into the jquery pit of despair.
+I've included `bignumber.js`, `ki.js`, and `ki.extend.js`. All of these will work in the browser. The bignum library works locally as well, while the latter two are limited to the browser (since they're for working with the DOM). I'll be giving them the `ansuz.deps` treatment as well, so you will be able to write minimal, functional, powerful clientside code without falling into the jquery pit of despair.
