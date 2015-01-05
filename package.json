@@ -1,6 +1,6 @@
 {
   "name": "ansuz",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "higher order functions for function composition, laziness, backtracking, and other magic",
   "main": "ansuz.js",
   "scripts": {
