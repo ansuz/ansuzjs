@@ -56,50 +56,118 @@ var foo=function(){
 
 ## Functions
 
-* ansuz.all
-* ansuz.carte
-* ansuz.carteSquare
-* ansuz.chain
-* ansuz.choose
-* ansuz.clone
-* ansuz.comb
-* ansuz.combinatorial
-* ansuz.compile
-* ansuz.compose
-* ansuz.cons
-* ansuz.cut
-* ansuz.cycle
-* ansuz.deps
-* ansuz.die
-* ansuz.done
-* ansuz.either
-* ansuz.exists
-* ansuz.fail
-* ansuz.fcycle
-* ansuz.filter
-* ansuz.first
-* ansuz.fix1
-* ansuz.fix2
-* ansuz.fixN
-* ansuz.flatten
-* ansuz.forget
-* ansuz.is
-* ansuz.isArray
-* ansuz.keys
-* ansuz.listall
-* ansuz.memo
-* ansuz.merge
-* ansuz.negate
-* ansuz.ngraphs
-* ansuz.nullArray
-* ansuz.range
-* ansuz.schedule
-* ansuz.shuffle
-* ansuz.splice
-* ansuz.stateful
-* ansuz.stdDev
-* ansuz.sum
-* ansuz.swap
-* ansuz.unique
-* ansuz.vals
-* ansuz.weightedArray
+## ansuz.all
+## ansuz.carte
+## ansuz.carteSquare
+## ansuz.chain
+## ansuz.choose
+## ansuz.clone
+## ansuz.comb
+## ansuz.combinatorial
+## ansuz.compile
+## ansuz.compose
+
+## ansuz.cons
+## ansuz.cut
+
+Accepts an array and an index, _cut_s the array like a deck of cards, return both halves, concatenated in reverse order.
+
+```Javascript
+$.cut([0,1,2,3,4],2);
+// [2,3,4,0,1]
+```
+
+## ansuz.cycle
+
+Takes an array and returns a generator which cycles through the elements of the array when called. Infinite, since it never exceeds the bounds of the array.
+
+```Javascript
+var g=$.cycle([1,3,3,7]);
+g();
+g();
+g();
+g();
+g();
+g();
+// 1,3,3,7,1,3
+```
+
+## ansuz.deps
+
+`ansuz.deps(dependencyArray[,libraryName])`
+
+`deps` takes an array of dependencies, and an object as a second optional argument (defaults to using 'ansuz'). It accesses the named functions within the provided object, and inspects them for **ansuz-style dependency annotations™**.
+
+It returns a list of unique dependencies which does not include the initial functions whose dependencies you were interested in. The returned value is the _name_ of the function, not the function itself.
+
+```Javascript
+$.deps(['weightedArray'])
+
+// ['flatten','nullArray','key']
+```
+
+## ansuz.die
+
+accepts an integer 'r', and returns an integer between zero and **r -1**.
+
+```Javascript
+$.die(3)
+
+// equivalent to $.choose([0,1,2])
+```
+
+## ansuz.done
+## ansuz.either
+
+Accepts an array and returns a generator which, when called, produces the next element in the array, until finally returning undefined.
+
+```Javascript
+var g=$.either([5,10,4]);
+g(); // 5
+g(); // 10
+g(); // 4
+g(); // undefined
+```
+
+## ansuz.exists
+
+Accepts an array or a proper object, and a second argument.
+
+Returns true if the element is a member of the array or object, and false otherwise.
+
+```Javascript
+$.exists([0,1,2,3,4],3); // true
+$.exists({x:5,y:7},'y'); // true
+$.exists([1,2,3],'pewpew'); // false
+$.exists({x:5,b:3},3); // false! it checks by key, not value
+```
+
+## ansuz.fail
+## ansuz.fcycle
+## ansuz.filter
+## ansuz.first
+## ansuz.fix1
+## ansuz.fix2
+## ansuz.fixN
+## ansuz.flatten
+## ansuz.forget
+## ansuz.is
+## ansuz.isArray
+## ansuz.keys
+## ansuz.listall
+## ansuz.memo
+## ansuz.merge
+## ansuz.negate
+## ansuz.ngraphs
+## ansuz.nullArray
+## ansuz.range
+## ansuz.schedule
+## ansuz.shuffle
+## ansuz.splice
+## ansuz.stateful
+## ansuz.stdDev
+## ansuz.sum
+## ansuz.swap
+## ansuz.unique
+## ansuz.vals
+## ansuz.weightedArray
