@@ -6,9 +6,10 @@ ansuzjs
 higher order functions for function composition, laziness, backtracking, and other magic
 
 ```quote
-
-“We need to make books cool again. If you go home with somebody and they don't have books, don't fuck them.”
-
+  “We need to make books cool again.
+  If you go home with somebody
+  and they don't have books,
+  don't fuck them.”
 ― John Waters 
 ```
 
@@ -36,11 +37,11 @@ Godspeed, brave hacker.
 
 ## How do I use it?
 
-The actual libraries can be found in the lib directory. Each should be commented fairly well, but I'd appreciate feedback on where the explanations are lacking.
+At this point, ansuzjs should still be considered experimental. Pretty much everything works as I intend it to (as far as I can tell), but there are a few function names which might change without regard for any code which you may have written to use ansuzjs.
 
-van.js is definitely a lot simpler than gen.js, so if you're going to read one of the two, start with van. Each function should have a comment explaining what it does, and a second comment specifying another script you can read for an example of the function's use.
+Some people complain that some of Javascript's core functionality is lacking. Personally, I prefer a small core language that can be extended in different ways. In this library, you'll find functions for dealing with Javascript's more complex data types (functions, strings, arrays, and proper objects) in a more sane way.
 
-### van.js provides functions for:
+### You'll find functions for:
 
 * wrapping other functions with differing argument structures (currying)
 * wrapping multiple functions into a single function
@@ -50,9 +51,6 @@ van.js is definitely a lot simpler than gen.js, so if you're going to read one o
 * membership tests for objects and arrays
 * basic handlers for vector computing (as one might find in a language like 'R')
 * executing functions on a timer
-
-### gen.js provides functions for:
-
 * lazily incrementing through arrays using generators (isolated state machines)
 * creating and safely using environments for markov-chain behaviours
 * memoization for recursive algorithms (which avoid recomputing the same values again and again)
@@ -97,5 +95,3 @@ I've written these libs to have minimal dependencies, but as it grows I may need
 I've included `bignumber.js`, `ki.js`, and `ki.extend.js`. All of these will work in the browser. The bignum library works locally as well, while the latter two are limited to the browser (since they're for working with the DOM). 
 
 I'll be giving them the `deps.js` treatment as well, so you will be able to write minimal, functional, powerful clientside code without falling into the jquery pit of despair.
-
-
