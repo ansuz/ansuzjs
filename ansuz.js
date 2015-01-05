@@ -490,7 +490,7 @@ var weightedArray=ansuz.weightedArray=function(C){
   }));
 };
 
-var meta=ansuz.meta=function(D,L){ // a list of deps and an optional lib
+var deps=ansuz.deps=function(D,L){ // a list of deps and an optional lib
   //[keys,vals,unique,flatten] // functions must be annotated like so.
   var L=L||ansuz; // use this for other compliant libraries, default to ansuz
   // only the first matched dependency array will be used
@@ -511,6 +511,7 @@ var meta=ansuz.meta=function(D,L){ // a list of deps and an optional lib
   var C={};
   var getDepsOf=function(d){
     if(!C[d]){
+
       C[d]=R[d]||true; // DRY
       R[d].map(getDepsOf);
     }
