@@ -1,4 +1,4 @@
-var van=require("../van.js");
+var $=require("../ansuz");
 
 /* functions are just another kind of data in javascript
   that means we can pass them around like any other data type
@@ -11,7 +11,7 @@ var van=require("../van.js");
 // I'll be demonstrating these functions by mapping them over arrays
 // so to make my life easier, I'm also going to use my 'range' function
 
-console.log(van.range(9));
+console.log($.range(9));
 
 // To show how this works, we need a function to transform...
 
@@ -23,16 +23,16 @@ var div = function(a,b){
    we fix the second argument using 'fix2'
   and pass the value 3 as its new constant */
 
-var divBy3=van.fix2(div,3);
+var divBy3=$.fix2(div,3);
 
-console.log(van.range(9)
+console.log($.range(9)
   .map(divBy3)
 );
 
 /* we can do the opposite by using fix1 */
-var div3By=van.fix1(div,3);
+var div3By=$.fix1(div,3);
 
-console.log(van.range(9)
+console.log($.range(9)
   .map(div3By)
 );
 
@@ -44,7 +44,7 @@ console.log(van.range(9)
   your CPU is probably underutilized anyway, so we can abuse it a little
   */
 
-van.fixN(function(){
+$.fixN(function(){
   console.log(arguments); // 'arguments' is a part of the standard js api
   }
   ,"pew" // the argument we'd like to splice in..
@@ -53,8 +53,8 @@ van.fixN(function(){
 
 /* Use fixN to transform a function of any arity into a null-ary function */
 
-console.log(van.nullArray(6)
-  .map(van.fixN(van.die,100,0) // die returns a random integer
+console.log($.nullArray(6)
+  .map($.fixN($.die,100,0) // die returns a random integer
 ));
 
 

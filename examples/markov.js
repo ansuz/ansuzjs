@@ -1,7 +1,7 @@
-var gen=require("../gen.js");
+var $=require("../ansuz");
 
 /*
-  gen.stateful is sort of like gen.forget.
+  $.stateful is sort of like $.forget.
   it's more powerful, but it's also more dangerous.
   it captures an environment, which is passed to the function at every call.
   that environment is fully exposed.
@@ -14,7 +14,7 @@ var gen=require("../gen.js");
 
 // count is a function which counts..
 
-var count=gen.stateful(
+var count=$.stateful(
   function(c){
     c.i=(c.i>9)?c.i-5:c.i+1;
     console.log(c.i);
@@ -32,7 +32,7 @@ count(); // note that the function is preserved
 count();
 count();
 
-var markov=gen.stateful(function(c){
+var markov=$.stateful(function(c){
   c.str = c.str+c.str||"pew";
   return c.str;
 },{str:""});

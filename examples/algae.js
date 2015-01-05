@@ -1,4 +1,4 @@
-var gen=require("../gen.js");
+var $=require("../ansuz");
 
 /* Lindenmayer Systems!!!
   aka L-systems http://en.wikipedia.org/wiki/L-system
@@ -12,7 +12,7 @@ var gen=require("../gen.js");
 
 console.log("An Algae system\n");
 
-var algae=gen.stateful(function(c){ // an algal generator
+var algae=$.stateful(function(c){ // an algal generator
   // each iteration of this function represents the death of the previous generation
   // and the birth of the next one
 
@@ -26,25 +26,24 @@ var algae=gen.stateful(function(c){ // an algal generator
 },{s:"A"});
 
 
-console.log(console.log(gen.first(algae,7))); // let's see the first 7 generations
-
+console.log(console.log($.first(algae,7))); // let's see the first 7 generations
 
 console.log("\nA Tree system\n"); // what about a tree system? 
 // these symbols are instructions, to be converted to a graphical depiction
 // via a drawing algorithm that interprets this as nested stacks of instructions
 
-var tree=gen.stateful(function(c){
+var tree=$.stateful(function(c){
   c.s =c.s
     .replace(/1/g,"11")
     .replace(/0/g,"1[0]0");
   return c.s;
 },{s:"0"});
 
-console.log(gen.first(tree,4));
+console.log($.first(tree,4));
 
 console.log("\nA scary dragon!\n");
 
-var dragon=gen.stateful(function(c){
+var dragon=$.stateful(function(c){
   c.s=c.s
     .replace(/X/g,"0")
     .replace(/Y/g,"1")
@@ -53,4 +52,4 @@ var dragon=gen.stateful(function(c){
   return c.s;
 },{s:"FX"});
 
-console.log(gen.first(dragon,5));
+console.log($.first(dragon,5));

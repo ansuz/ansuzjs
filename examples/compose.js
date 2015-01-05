@@ -1,4 +1,4 @@
-var van=require("../van.js");
+var $=require("../ansuz");
 
 /* 'Reduce' is an array method which successively applies a binary function
   against each element in an array, passing along the accumulated value
@@ -12,16 +12,16 @@ var van=require("../van.js");
   This method is useful for other expressions
   which may not have an algebraic shorthand */
 
-console.log(van.range(9).map(function(x){
-    return van.sum(van.range(x));
+console.log($.range(9).map(function(x){
+    return $.sum($.range(x));
   })
 );
 
 /* You can use compose to produce the same function
   by passing it an array of the component functions and using 'reduce' */
 
-console.log(van.range(9).map(
-  [van.range,van.sum]
-    .reduce(compose)));
+console.log($.range(9).map(
+  [$.range,$.sum]
+    .reduce($.compose)));
 
 /* This technique can be used to dynamically produce complicated behaviour */

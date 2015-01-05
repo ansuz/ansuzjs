@@ -1,4 +1,4 @@
-var gen=require("../gen.js");
+var $=require("../ansuz");
 
 /*
   a memoizing generator
@@ -17,7 +17,7 @@ var gen=require("../gen.js");
   at which point that value will be returned
   */
 
-var memoed=gen.memo(function(x){
+var memoed=$.memo(function(x){
   return Math.floor(Math.random()*10);
 });
 
@@ -29,7 +29,7 @@ console.log(memoed()); // 2nd increment
 console.log(memoed(0)); // reference the zero'th increment without triggering execution
 console.log(memoed(0)); // do it again, just to prove it..
 
-var env=gen.memo(function(i,c){
+var env=$.memo(function(i,c){
   console.log(JSON.stringify(c));
   return i*10;
 });

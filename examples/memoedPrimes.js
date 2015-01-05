@@ -1,4 +1,4 @@
-var gen=require("../gen.js");
+var $=require("../ansuz");
 
 var isPrime=function(n){ 
 // courtesy of http://www.javascripter.net/faq/numberisprime.htm
@@ -11,9 +11,9 @@ var isPrime=function(n){
   return true;
 }
 
-var memoPrime=gen.memo(
+var memoPrime=$.memo(
   function(){// let's make a closure
-    var count=gen.forget(function(x){return x+1;}); // which keeps track of the highest number we've checked for primality
+    var count=$.forget(function(x){return x+1;}); // which keeps track of the highest number we've checked for primality
     var cur; // we need a place to put the current number
     return function(){ // our closure returns a function which uses that number to find the next prime
       cur=count(); // since you must have checked the last number, move on to the next
@@ -33,14 +33,14 @@ console.log(memoPrime(7)); // generates the seventh prime
   // and fills the cache with all the previous prime
   // (but only if they hadn't already been generated
 
-/* using 'gen.first'
+/* using '$.first'
   'first' takes the first N results of some lazy list
   the position of these results is relative to the current index */
 
-console.log(gen.first(memoPrime)); 
+console.log($.first(memoPrime)); 
   // since we've generated the 7th prime, this will actually return the 8th
 
-console.log(gen.first(memoPrime,3));
+console.log($.first(memoPrime,3));
   // this will return the 9th, 10th, and 11th
 
 console.log([3,15,4,7].map(memoPrime));

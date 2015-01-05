@@ -1,5 +1,4 @@
-var van=require("../van.js");
-var gen=require("../gen.js");
+var $=require("../ansuz");
 
 /* This isn't really an example of anything I haven't already demonstrated
   but I think the juggler's sequence is cool!
@@ -15,11 +14,11 @@ var juggler=function(c){ // juggler is a function which takes a cache
 };
 
 var juggleN=function(n){ // wrap up the juggler function in a state machine
-  return gen.stateful(juggler,{n:n}); // provide its argument in the cache you pass
+  return $.stateful(juggler,{n:n}); // provide its argument in the cache you pass
 };
 
-van.range(2,9).map(function(n){ // map juggleN over a few integers
+$.range(2,9).map(function(n){ // map juggleN over a few integers
   console.log("\nThe first 10 elements of the juggler sequence, for N == %s",n);
-  console.log(gen.first(juggleN(n),10)); // generate the first 10
+  console.log($.first(juggleN(n),10)); // generate the first 10
     // but don't bother continuing if you hit an undefined result
 });

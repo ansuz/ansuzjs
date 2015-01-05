@@ -1,4 +1,4 @@
-var van=require("../van.js");
+var $=require("../ansuz");
 
 /* Random reordering of a set can be useful when backtracking
   because while it provides a guarantee that you will still traverse
@@ -13,9 +13,8 @@ var van=require("../van.js");
 
   Unfortunately, this method can not be applied to infinitely long sequences. */
 
-
 // Shuffle things up a bit.
-console.log(van.shuffle(van.range(12)));
+console.log($.shuffle($.range(12)));
 
 // 'cut the deck' such that you begin from the middle of your sequence
-console.log(van.cut(van.range(12),4));
+console.log($.cut($.range(12),4));

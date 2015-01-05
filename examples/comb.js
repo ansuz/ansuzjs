@@ -1,4 +1,4 @@
-var van=require("../van.js");
+var $=require("../ansuz");
 
 /*  we want to calculate the distance between any two points on a graph
     distance is commutative
@@ -6,8 +6,8 @@ var van=require("../van.js");
     comb ensures that we only compute examples once
 */
 
-var allCombinations=van.comb(function(a,b){
+var allCombinations=$.comb(function(a,b){
   return {a:a,b:b};
-},van.range(5));
+},$.range(5));
 
 console.log(allCombinations);

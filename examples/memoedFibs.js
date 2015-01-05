@@ -1,10 +1,10 @@
-var gen=require("../gen.js");
+var $=require("../ansuz");
 
 /* Unlike the memoizing prime example
   there is a direct correlation between fibonacci numbers
   which allows us to write a much more concise example */
 
-var memoFib=gen.memo(
+var memoFib=$.memo(
   function(n,c){ // make sure to give a name to the cache in your function
 
     // standard output gives us an idea what's happening with each call
