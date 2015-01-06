@@ -170,6 +170,11 @@ var merge=ansuz.merge=function (X,B,f){
   return A;
 };
 
+var log=ansuz.log=function(a,b){
+  /* arbitrary base logarithm, since I always seem to end up needing it */
+  return Math.log(a)/Math.log(b);
+};
+
 var is=ansuz.is=function (a,b){
 /* alias for equality, for when you want to curry */
   return a === b;
@@ -528,7 +533,6 @@ var compile=ansuz.compile=function(D,L,T){
   L=L||ansuz;
   T=T||'$';
 
-
   // boilerplate
   var plate=function(){/*var {TITLE}={};
 
@@ -552,7 +556,6 @@ if(typeof module!== 'undefined')
       ,'{BODY}':B
     });
 };
-
 
 if(typeof module !== 'undefined')
   module.exports=ansuz;
