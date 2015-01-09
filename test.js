@@ -150,5 +150,23 @@ buster.testCase("ansuzjs", {
     // cons
     // chain
     // combinatorial
+
+    assert.equals(
+      $.intersection([0,1,2,3],[2,3,4,5])
+      ,[2,3]
+    );
+
+    assert.equals(
+      $.difference([0,1,2,3],[2,3,4,5])
+      ,[0,1,4,5]
+    );
+
+    assert($.superset([0,1,2],[1,2]));
+    refute($.superset([0],[1]));
+
+    assert($.subset([1,2],[0,1,2,3,4]));
+
+
+
   }
 });
