@@ -180,6 +180,35 @@ var is=ansuz.is=function (a,b){
   return a === b;
 };
 
+var intersection=ansuz.intersection=function(A,B){
+  //[fix1,exists]
+  return A.filter(fix1(exists,B));
+};
+
+var difference=ansuz.difference=function(A,B){
+  //[exists]
+  return A.filter(function(a){
+    return !exists(B,a);
+  }).concat(B.filter(function(b){
+    return !exists(A,b);
+  }));
+};
+
+var superset=ansuz.superset=function(A,B){
+  //[negate,fix1,exists]
+  var b=B.filter(negate(fix1(exists,A)));
+  var a=A.filter(negate(fix1(exists,B)));
+//  console.log('%s %s',a,b);
+  return b.length==0 && A.length > 0;
+};
+
+var subset=ansuz.subset=function(A,B){
+  //[negate,fix1,exists]
+  var x=A.filter(negate(fix1(exists,B))).length;
+  var y=B.filter(negate(fix1(exists,A))).length;
+  return !x && y;
+};
+
 var stdDev=ansuz.stdDev=function (A){
   //[sum]
 /* take the standard deviation of an array of numbers */
