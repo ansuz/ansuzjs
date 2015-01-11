@@ -9,7 +9,7 @@ var fixN=ansuz.fixN=function (f,a,n){
 /* fix the nth argument of a function */
   n=n||0;
   return function(b){
-    args=Array.prototype.slice.call(arguments); // more ansuz.ral now
+    args=Array.prototype.slice.call(arguments); // more general now
     args.splice(n,0,a);
     return f.apply(null,args);
   };
@@ -90,7 +90,7 @@ var carteSquare=ansuz.carteSquare=function (f,A){
 
 var comb=ansuz.comb=function (f,A){
   //[fix1]
- /*  produce a heteroansuz.us array consisting of all
+ /*  produce a heterogenous array consisting of all
     unique pairwise combinations of elements from an array */
 
  // make a copy of the array in question
