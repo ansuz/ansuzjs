@@ -462,11 +462,23 @@ var splice=ansuz.splice=function (string,index,ins){
 };
 
 var swap=ansuz.swap=function (s,o,r){
-/* replace tokens in a string with their definitions in a dictionary */
+/* replace tokens in a string with their definitions in a dictionary 
+   swap is deprecated, use substitute instead */
   r=r||/{\w+}/g;
   return s.replace(r, function(k) {
      return o[k]||k;
   });
+};
+
+var substitute=ansuz.substitute=function(opt){
+/* substitute is a more flexible version of 'swap' */
+  if(!opt)return;
+  var pattern=opt.pattern||/\{[\s\S]+\}/g;
+  var values=opt.values||{};
+  var callback=opt.callback||function(key){
+    return values[key.slice(1,-1)]||key;
+  };
+  return opt.source.replace(pattern,callback);
 };
 
 var ngraphs=ansuz.ngraphs=function(S,n,d){
@@ -524,7 +536,23 @@ var weightedArray=ansuz.weightedArray=function(C){
   }));
 };
 
-var deps=ansuz.deps=function(D,L){ // a list of deps and an optional lib
+var globs=ansuz.globs=function(D,L){
+  //[keys]
+  var G={};
+  D.map(function(d){ // for every function name in the list of dependencies
+    L[d].toString() // find the source
+      .replace(/\/\/\{.*\}/,function(s){ // for every such source
+        s.slice(3,-1).split(",") // find global libs annotated with curly braces
+          .map(function(g){ 
+            G[g]=true;
+          });
+      });
+  });
+  return keys(G);
+};
+
+var deps=ansuz.deps=function(D,L){ 
+  // a list of deps and an optional lib
   //[keys,vals,unique,flatten] // functions must be annotated like so.
   var L=L||ansuz; // use this for other compliant libraries, default to ansuz
   // only the first matched dependency array will be used
@@ -547,7 +575,8 @@ var deps=ansuz.deps=function(D,L){ // a list of deps and an optional lib
     if(!C[d]){
 
       C[d]=R[d]||true; // DRY
-      R[d].map(getDepsOf);
+
+      (R[d]||[]).map(getDepsOf);
     }
   };
 
@@ -557,17 +586,30 @@ var deps=ansuz.deps=function(D,L){ // a list of deps and an optional lib
   return keys(C);  
 };
 
-var compile=ansuz.compile=function(D,L,T){
+var compile=ansuz.compile=function(D,L,T,G){
+//  console.log('compiling... ');
+  /* compile requires at least one argument, an array of dependencies (strings)
+     each dependency is the name of a function that has been imported into the current scope.
+     it will optionally accept a number of other options:
+      a library L (an object), from which the functions will be extracted
+        this defaults to the current library (ansuz)
+      a title T (a string), to which the resulting library will refer
+        this defaults to '$'
+      a list of globally accessible libraries that will be required G (an array)
+        this defaults to []
+     returns a string */
+
   //[swap]
   L=L||ansuz;
   T=T||'$';
+  G=G||[];
 
   // boilerplate
   var plate=function(){/*var {TITLE}={};
 
 {BODY}
 
-if(typeof module!== 'undefined')
+if(typeof module!=='undefined')
   module.exports={TITLE}
 */}.toString().slice(14,-3);
 
@@ -579,11 +621,24 @@ if(typeof module!== 'undefined')
       });
   }).join("\n\n")
 
-  return swap(plate
+  return G.map(function(g){
+    return 'var '+g+'=require("'+g+'");\n';
+  }).join("")+
+  swap(plate
     ,{
       '{TITLE}':T
       ,'{BODY}':B
     });
+};
+
+var autocompile=ansuz.autocompile=function(D,L,T){
+  //[glob,deps,compile]
+  //{fs}
+  L=L||ansuz;
+  T=T||'ansuz';
+  var G=globs(D,L);
+  var F=deps(D,L,T);
+  return compile(D.concat(F),L,T,G);
 };
 
 if(typeof module !== 'undefined')
