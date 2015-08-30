@@ -3,21 +3,7 @@ ansuzjs
 
 [![NPM](https://nodei.co/npm/ansuz.png)](https://nodei.co/npm/ansuz/)
 
-higher order functions for function composition, laziness, backtracking, and other magic
-
-```quote
-  “We need to make books cool again.  
-  If you go home with somebody  
-  and they don't have books,  
-  don't fuck them.”  
-― John Waters  
-```
-
-ermm.. s/books/functional js/g
-
-yea.
-
-****
+## higher order functions for function composition, laziness, backtracking, and other magic
 
 I use Javascript for just about everything these days. The language features that I actually use only comprise a very small fraction of the language, though.
 
