@@ -136,6 +136,16 @@ buster.testCase("ansuzjs", {
       ,true
     );
 
+    assert.equals(
+        $.exists({a:1,b:2,c:3},2),
+        true
+    );
+
+    refute.equals(
+        $.exists({a:1,b:2,c:3},5),
+        true
+    );
+
     // functions that still need to be tested...
 
     // weighted
