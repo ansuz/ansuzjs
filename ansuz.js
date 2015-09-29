@@ -47,7 +47,7 @@ var sum=ansuz.sum=function (A){
 /* sum an array of integers */
     return A.reduce(function(a,b){
         return a+b;
-    });
+    },0);
 };
 
 var range=ansuz.range=function (a,b){
@@ -71,7 +71,7 @@ var flatten=ansuz.flatten=function (AA){
 /* flatten an array of arrays into a single array */
     return AA.reduce(function(A,B){
         return A.concat(B);
-    });
+    },[]);
 };
 
 var carte=ansuz.carte=function (f,A,B){
@@ -430,7 +430,7 @@ var chain=ansuz.chain=function (F,cond,done){
             // since the nth function needs to be passed as the 'next' to the (n-1)th
         .reduce(function(next,current){
             return ansuz.cons(current,next,cond,done); // chain each function together
-        });
+        },function(){});
     return fn; // return the lazy handler you've produced.
 };
 
