@@ -42,6 +42,11 @@ buster.testCase("ansuzjs", {
     );
 
     assert.equals(
+      $.sum([])
+      ,0
+    );
+
+    assert.equals(
       $.nullArray(3)
       ,[null,null,null]
     );
@@ -59,6 +64,11 @@ buster.testCase("ansuzjs", {
     assert.equals(
       $.flatten($.carteSquare(function(x,y){return x+y;},[0,1]))
       ,[0,1,1,2]
+    );
+
+    assert.equals(
+      $.flatten([])
+      ,[]
     );
 
     assert.equals(
