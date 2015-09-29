@@ -136,7 +136,10 @@ var exists=ansuz.exists=function (A,e){
         if the provided argument is an object, instead test if one of the keys
         corresponds to such a value
     */
-    if(isArray(A)) return (A.indexOf(e)!==-1)?true:false;
+    if(typeof e === 'undefined'){
+        return A;
+    }
+    if(isArray(A)) return (A.indexOf(e)!==-1);
     if(typeof A==='object'){
         for(a in A){
             if(A[a] == e){
@@ -186,7 +189,7 @@ var log=ansuz.log=function(a,b){
 };
 
 var is=ansuz.is=function (a,b){
-/* alias for equality, for when you want to curry */
+    /* alias for equality, for when you want to curry */
     return a === b;
 };
 
