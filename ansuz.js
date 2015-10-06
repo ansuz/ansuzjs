@@ -211,7 +211,6 @@ var superset=ansuz.superset=function(A,B){
     //[negate,fix1,exists]
     var b=B.filter(negate(fix1(exists,A)));
     var a=A.filter(negate(fix1(exists,B)));
-//    console.log('%s %s',a,b);
     return b.length==0 && A.length > 0;
 };
 
@@ -521,7 +520,7 @@ var choose=ansuz.choose=function(A){
      return (function(){
                 var T=keys(A);
                 return A[T[die(T.length)]];
-            })();
+            }());
     return A[die(A.length)];
 };
 
@@ -581,8 +580,6 @@ var deps=ansuz.deps=function(D,L){
         R[f]=d?d.slice(3,-1).split(","):[];
     });
 
-//    console.log(R);
-
     var C={};
     var getDepsOf=function(d){
         if(!C[d]){
@@ -600,7 +597,6 @@ var deps=ansuz.deps=function(D,L){
 };
 
 var compile=ansuz.compile=function(D,L,T,G){
-//    console.log('compiling... ');
     /* compile requires at least one argument, an array of dependencies (strings)
          each dependency is the name of a function that has been imported into the current scope.
          it will optionally accept a number of other options:
