@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" charset="UTF-8">
+        <title>ansuz.js</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script src="contrib/ui.js" type="application/javascript"></script>
+        <script src="ansuz.js" type="application/javascript"></script>
+    </head>
+<body>
+    <div id="selected"></div>
+    <div><pre id="compiled"></pre></div>
+<script> $(function(){
+
+var $selected=$('#selected'),
+    $compiled=$('#compiled');
+
+var check=function(){/*
+<div class="chex">
+    <input type="checkbox" name="{func}" value="{func}" />{func}</div>
+*/}.toString().slice(14,-3);
+
+$selected.html(ansuz.keys(ansuz).map(function(key){
+    var x=ansuz.swap(check,{'{func}':key},/\{[\s\S]*?\}/g);
+    console.log(x);
+    return x;
+}).join(''));
+
+var checks=[];
+
+var compiler=function(){
+    console.log(checks);
+    $compiled.html(function(){
+        return checks.length?ansuz.autocompile(checks):'';
+    });
+};
+
+$('input[type="checkbox"]').each(function(e){
+    var $this=$(e),
+        val=$this.attr('value'),
+        name=$this.attr('name');
+
+    $this.on('click',function(){
+        var val=$this.attr('value');
+        if($this[0].checked){
+            checks.push(name);
+        }else{
+            checks=checks.filter(function(x){
+               return x!==name; 
+            });
+            //ansuz.negate(ansuz.fix1(ansuz.is,name)));
+        }
+        compiler();
+    });
+});
+
+
+
+});</script>

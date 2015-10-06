@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" charset="UTF-8">
+        <title>ansuz.js</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script src="contrib/ui.js" type="application/javascript"></script>
+        <script src="ansuz.js" type="application/javascript"></script>
+    </head>
+<body>
+    <div id="home" class="intro">
+        <p><strong>ansuz.js</strong> started as an effort to abstract away the common forms of code that seemed to always end up in my programs.</p>
+        <p>After a while, as the list of functions grew, I wanted to return to my minimalist roots.</p>
+        <p>I decided to make sure that each function adhered to a common code style that would make each function as readable to machines as to humans.</p>
+        <p>You'll see that if you read through the code below, functions which depend on earlier functions are annotated in line comments, like so:</p>
+            <pre>
+            <span class="line comment">//[carte]</span></pre>
+        <p>You can exploit this functionality by loading <strong>ansuz.js</strong> at the nodejs REPL, and re-exporting a smaller version of the library that only contains the functions that you need.</p>
+        <p>It manages this by parsing all the functions in the library, and constructing a dependency tree (at runtime).</p>
+        <p>As a result, you can write more functions at the same REPL, and write them to a new superset file.</p>
+        <p>You can think of <strong>ansuz.js</strong> as a library dedicated to <em>meta</em>programming</p>
+        <pre>           <span class="line comment">// ansuz</span></pre>
+    </div>
+<script> $(function(){
+    var $body=$('body');
+
+    var template=function(){/*
+<div class="func-{name}">
+    <h3><span id="{name}"><a href="#{name}">#</a> </span><code>ansuz.{name}</code></h3>
+    <pre><code>{code};
+</code></pre>
+</div>
+
+*/}.toString().slice(14,-3);
+
+    var linkCalls=function(cmt,type){
+        return type == 'line'?
+            cmt.replace(/\/\/\[.*?\]/,function(line){
+                return '\/\/['+(line
+                    .slice(3,-1)
+                    .split(',')
+                    .map(function(func){
+                        return '<a href="#'+func+'">'+func+'</a>';
+                    }))+']';
+            }):cmt;
+    };
+
+    var comment=function(cmt,type){
+        return '<span class="'+type+' comment">'+linkCalls(cmt,type)+'</span>';
+    };
+
+    $body.html($body.html()+Object.keys(ansuz)
+        .map(function(name){
+            return ansuz.swap(template,{
+                '{name}':name,
+                '{code}':ansuz[name].toString(),
+            },/\{\w+\}/g)
+            .replace(/\/\*[\s\S]*?\*\//g,ansuz.fix2(comment,'block'))
+                .split(/\n/)
+                .map(function(line){
+                    return line.replace(/\/\/.*$/g,ansuz.fix2(comment,'line'));
+                })
+                .join("\n");
+        })
+    .join("\n\n"));
+});</script>
