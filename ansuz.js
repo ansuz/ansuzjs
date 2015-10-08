@@ -150,6 +150,21 @@ var exists=ansuz.exists=function (A,e){
     }
 };
 
+var addIfAbsent=ansuz.addIfAbsent=function(A,e,f,n){
+    /*  test whether an element 'e' is in an array 'A'
+        if it is not, add it
+            and pass it to a callback 'f', if f is a function
+    */
+    if(A.indexOf(e) === -1){
+        A.push(e);
+        if(typeof f === 'function'){
+            f(e);
+        }
+    }else if(typeof n === 'function'){
+        n(e);
+    }
+};
+
 var vals=ansuz.vals=function (O){
 /* return all the values in an object */
     return Object.keys(O).map(function(k){
@@ -262,8 +277,7 @@ var forget=ansuz.forget=function (f,i,c){
 
 var stateful=ansuz.stateful=function (f,c){
 /*    accept a function and return a stateful generator */
-    // no default values for this generator
-    // you're expected to do it yourself..
+    c=c||{};
     return function(cache){
         // when a new cache is passed, it overrides the original
         c=cache||c;
@@ -538,7 +552,7 @@ var unique=ansuz.unique=function(A){
 
 var weightedArray=ansuz.weightedArray=function(C){
     //[flatten,nullArray,keys]
-/*    chooseWeighted accepts an object C, in which keys correspond to integers
+/*    weightedArray accepts an object C, in which keys correspond to integers
         each integer corresponding to the occurences of that key in a corpus,
         and a key k, which is taken as */
     return flatten(keys(C).map(function(k){
@@ -546,6 +560,20 @@ var weightedArray=ansuz.weightedArray=function(C){
             return k;
         });
     }));
+};
+
+var docString=ansuz.docString=function(f){
+    /*
+        accepts a function
+        returns the first block comment in the function's source text
+    */
+    var res=/\/\*[\s\S]+?\*\//.exec(f.toString());
+    return !res?'':res[0].slice(2,-2)
+            .split('\n')
+            .map(function(line){
+                return line.trim();
+            })
+            .join('\n');
 };
 
 var globs=ansuz.globs=function(D,L){
