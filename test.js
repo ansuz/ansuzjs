@@ -14,6 +14,21 @@ buster.testCase("ansuzjs", {
         a: {b: {c: 5}}
     }, ['a', 'd']));
 
+    // incrementing 3 by two yields 5
+    assert.equals($.count({x: 3}, 'x', 2), 5);
+
+    // incrementing 7 by negative two yields 5
+    assert.equals($.count({x:7}, 'x', -2), 5);
+
+    // incrementing x by the default 1 will yield 5
+    assert.equals($.count({x: 4}, 'x'), 5);
+
+    // undefined maps return false
+    assert.equals($.count(null, '5'), false);
+
+    // count works on anything that has attributes
+    assert.equals($.count([1,2,3], '1'), 3);
+
     assert.equals( // 2 cubed is 8 
       $.fix1(Math.pow,2)(3)
       ,8
