@@ -12,6 +12,15 @@ var find = ansuz.find = function (map, path) {
     }, map)) || undefined;
 };
 
+var count = ansuz.count = function (map, key, inc) {
+/* safely increment a value in a map by its key by one or an optional number */
+    if (map) {
+        map[key] = (map[key] || 0) + (typeof inc === 'number'? inc: 1);
+        return map[key];
+    }
+    return false;
+};
+
 var fixN = ansuz.fixN = function (f,a,n) {
 /* fix the nth argument of a function */
     n=n||0;
