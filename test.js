@@ -6,6 +6,14 @@ var refute=buster.refute;
 buster.testCase("ansuzjs", {
   "tests":function(){
 
+    assert.equals($.find({
+        a:{b:{c:{d:5}}}
+    }, ['a', 'b', 'c', 'd']), 5);
+
+    refute($.find({
+        a: {b: {c: 5}}
+    }, ['a', 'd']));
+
     assert.equals( // 2 cubed is 8 
       $.fix1(Math.pow,2)(3)
       ,8
