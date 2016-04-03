@@ -5,6 +5,13 @@ var isArray = ansuz.isArray = function (obj) {
     return Object.prototype.toString.call(obj)==='[object Array]';
 };
 
+var find = ansuz.find = function (map, path) {
+/* safely search for nested values in an object via a path */
+    return (map && path.reduce(function (p, n) {
+        return typeof p[n] !== 'undefined' && p[n];
+    }, map)) || undefined;
+};
+
 var fixN = ansuz.fixN = function (f,a,n) {
 /* fix the nth argument of a function */
     n=n||0;
