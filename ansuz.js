@@ -174,8 +174,10 @@ var addIfAbsent = ansuz.addIfAbsent = function(A,e,f,n){
         if(typeof f === 'function'){
             f(e);
         }
+        return true;
     }else if(typeof n === 'function'){
         n(e);
+        return false;
     }
 };
 
