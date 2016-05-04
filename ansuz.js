@@ -360,9 +360,9 @@ var cycle = ansuz.cycle = function (a){
 var fcycle = ansuz.fcycle = function (a){
  /*    accept an array of functions and return a generator
         which cycles through executing each function */
-    var i=0,l=a.length;
-    return function(){
-        return a[i++ % l]();
+    var F = cycle(a);
+    return function () {
+        return F()();
     };
 };
 
