@@ -209,6 +209,11 @@ buster.testCase("ansuzjs", {
 
     assert($.subset([1,2],[0,1,2,3,4]));
 
+    assert($.every([1,2,3]));
+    refute($.every([0,1,2]));
+    assert($.every([15,1.5,0x00], function (n) {
+        return !isNaN(n);
+    }));
 
 
   }

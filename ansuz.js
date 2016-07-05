@@ -52,6 +52,14 @@ var negate = ansuz.negate = function (p) {
     };
 };
 
+var every = ansuz.every = function (E, f) {
+    return !E.some(function (e, i) {
+        return !(typeof(f) === 'function'?
+            f(e, i, E):
+            e);
+    });
+};
+
 var compose = ansuz.compose = function (f,g){
 /* chain two unary functions */
     return function(x){
