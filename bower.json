@@ -1,0 +1,27 @@
+{
+  "name": "ansuz",
+  "description": "higher order functions for function composition, laziness, backtracking, set theoretic operations, and other magic",
+  "main": "ansuz.js",
+  "authors": [
+    "ansuz"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "backtrack",
+    "lazy",
+    "curry",
+    "ansuz",
+    "generator",
+    "functional",
+    "meta",
+    "data"
+  ],
+  "homepage": "ansuz.github.io/ansuzjs/",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
