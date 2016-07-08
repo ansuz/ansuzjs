@@ -1,3 +1,5 @@
+(function () {
+
 var ansuz={};
 
 var isArray = ansuz.isArray = function (obj) {
@@ -709,5 +711,14 @@ var autocompile = ansuz.autocompile = function(D,L,T){
     return compile(D.concat(F),L,T,G);
 };
 
-if(typeof module !== 'undefined')
+if(typeof module !== 'undefined') {
     module.exports=ansuz;
+} else if (typeof(define) === 'function' && define.amd) {
+    define(function () {
+        return ansuz;
+    });
+} else {
+    window.ansuz = ansuz;
+}
+
+}());
