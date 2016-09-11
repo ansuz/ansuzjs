@@ -540,12 +540,18 @@ var substitute = ansuz.substitute = function(opt){
     return opt.source.replace(pattern,callback);
 };
 
-var ngraphs = ansuz.ngraphs = function(S,n,d){
+var ngraphs = ansuz.ngraphs = function(S, n, d, C){
 /* accept an array of strings and generate weighted directional graph */
-    S=S.slice(0);
+    if (isArray(S)) {
+        S = S.slice(0);
+        d = typeof d !== 'undefined'? d: ' ';
+    } else if (typeof(S) === 'string') {
+        S = S.split("");
+        d = typeof(d) !== 'undefined'? d: '';
+    }
+
     n=(typeof n!=='undefined')?n:1;
-    d=(typeof d!=='undefined')?d:' ';
-    var C={};
+    C = C || {};
     while(S.length>(n+1))
         (function(){
             var id=S.slice(0,n+1).join(d);
