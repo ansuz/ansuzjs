@@ -2,9 +2,15 @@
 
 var ansuz={};
 
+var identity = ansuz.identity = function (x) { return x; };
+
 var isArray = ansuz.isArray = function (obj) {
 /*    Check if an object is an array */
     return Object.prototype.toString.call(obj)==='[object Array]';
+};
+
+var isRegExp = ansuz.isRegExp = function (obj) {
+    return Object.prototype.toString.call(obj) === '[object RegExp]';
 };
 
 var find = ansuz.find = function (map, path) {
