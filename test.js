@@ -184,10 +184,19 @@ buster.testCase("ansuzjs", {
         $.least([5,6,7])
     );
 
+    refute($.least());
+    refute($.least([]));
+
     assert.equals(
         7,
         $.most([5,6,7])
     );
+
+    refute($.most());
+    refute($.most([]));
+
+
+
 
     // functions that still need to be tested...
 
