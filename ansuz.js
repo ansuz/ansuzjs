@@ -106,6 +106,13 @@ var range = ansuz.range = function (a,b){
     return temp;
 };
 
+var least = ansuz.least = function (A) {
+    if (!A || !A.length) { return undefined; }
+    return A.reduce(function (a, b) {
+        return Math.min(a, b);
+    });
+};
+
 var nullArray = ansuz.nullArray = function (n){
 /* produce an array of nulls of length n */
     return new Array(n).fill(null);
