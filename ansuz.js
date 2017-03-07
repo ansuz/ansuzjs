@@ -68,6 +68,17 @@ var every = ansuz.every = function (E, f) {
     });
 };
 
+var some = ansuz.some = function (O, f) {
+    if (!O) { return false; }
+    if (isArray(O)) { return O.some(f); }
+    else if (typeof(O) === 'object') {
+        return Object.keys(O).some(function (k, i) {
+            return f(O[k], k);
+        });
+    }
+    else { return false; }
+};
+
 var compose = ansuz.compose = function (f,g){
 /* chain two unary functions */
     return function(x){
