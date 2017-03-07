@@ -23,8 +23,12 @@ var find = ansuz.find = function (map, path) {
 var count = ansuz.count = function (map, key, inc) {
 /* safely increment a value in a map by its key by one or an optional number */
     if (map) {
-        map[key] = (map[key] || 0) + (typeof inc === 'number'? inc: 1);
-        return map[key];
+        var val = map[key] || 0;
+        return map[key] = typeof(inc) === 'number'?
+            (val) + inc:
+            typeof(inc) === 'function'?
+                inc(val):
+                val + 1;
     }
     return false;
 };
