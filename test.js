@@ -215,6 +215,19 @@ buster.testCase("ansuzjs", {
         return !isNaN(n);
     }));
 
+    refute($.some({
+        x: 5,
+        y: 7,
+        z: 9
+    }, function (v, k) {
+        return v > 10;
+    }));
+
+    assert($.some([
+        12, 13, 14
+    ], function (v, k) {
+        return k < 10;
+    }));
 
   }
 });
