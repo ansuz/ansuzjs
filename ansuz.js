@@ -75,11 +75,14 @@ var compose = ansuz.compose = function (f,g){
     };
 };
 
-var sum = ansuz.sum = function (A){
+var add = ansuz.add = function (a, b) {
+    return a + b;
+};
+
+var sum = ansuz.sum = function (A) {
+    //[add]
 /* sum an array of integers */
-    return A.reduce(function(a,b){
-        return a+b;
-    },0);
+    return A.reduce(add, 0);
 };
 
 var range = ansuz.range = function (a,b){
