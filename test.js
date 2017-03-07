@@ -179,6 +179,16 @@ buster.testCase("ansuzjs", {
         true
     );
 
+    assert.equals(
+        5,
+        $.least([5,6,7])
+    );
+
+    assert.equals(
+        7,
+        $.most([5,6,7])
+    );
+
     // functions that still need to be tested...
 
     // weighted
