@@ -117,6 +117,13 @@ var least = ansuz.least = function (A) {
     });
 };
 
+var most = ansuz.most = function (A) {
+    if (!A || !A.length) { return undefined; }
+    return A.reduce(function (a, b) {
+        return Math.max(a, b);
+    });
+};
+
 var nullArray = ansuz.nullArray = function (n){
 /* produce an array of nulls of length n */
     return new Array(n).fill(null);
