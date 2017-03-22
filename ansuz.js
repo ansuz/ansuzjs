@@ -140,6 +140,14 @@ var nullArray = ansuz.nullArray = function (n){
     return new Array(n).fill(null);
 };
 
+var array = ansuz.array = function (n, v) {
+    var a = new Array(n);
+    if (typeof(v) === 'function') {
+        return a.fill().map(v);
+    }
+    return a.fill(v);
+};
+
 var flatten = ansuz.flatten = function (AA){
 /* flatten an array of arrays into a single array */
     return AA.reduce(function(A,B){
