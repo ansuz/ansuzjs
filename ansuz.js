@@ -101,6 +101,10 @@ var add = ansuz.add = function (a, b) {
     return a + b;
 };
 
+var subtract = ansuz.subtract = function (a, b) {
+    return a - b;
+};
+
 var sum = ansuz.sum = function (A) {
     //[add]
 /* sum an array of integers */
