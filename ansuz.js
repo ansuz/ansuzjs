@@ -64,6 +64,13 @@ var negate = ansuz.negate = function (p) {
     };
 };
 
+var invert = ansuz.invert = function (f) {
+/* return the inverse of a binary function */
+    return function (a, b) {
+        return f(b, a);
+    };
+};
+
 var every = ansuz.every = function (E, f) {
     return !E.some(function (e, i) {
         return !(typeof(f) === 'function'?
