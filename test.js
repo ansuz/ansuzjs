@@ -248,5 +248,9 @@ buster.testCase("ansuzjs", {
         return k < 10;
     }));
 
+    assert.equals(
+        [3, 5, 1].sort($.invert($.subtract)),
+        [5, 3, 1]);
+
   }
 });
