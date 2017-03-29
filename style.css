@@ -26,7 +26,7 @@ a, a:visited{
     border:1px solid black;
     padding-left:5vw;
 }
-[class^="func"]:nth-child(even){
+[class^="func"]:nth-child(odd){
     background-color: #444;
 }
 code{
