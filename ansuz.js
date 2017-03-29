@@ -2,35 +2,27 @@
 
 var ansuz={};
 
-var identity = ansuz.identity = function (x) { return x; };
-
-var isArray = ansuz.isArray = function (obj) {
-/*    Check if an object is an array */
-    return Object.prototype.toString.call(obj)==='[object Array]';
+var identity = ansuz.identity = function (x) {
+/* given x, return x */
+    return x;
 };
 
-var isRegExp = ansuz.isRegExp = function (obj) {
-    return Object.prototype.toString.call(obj) === '[object RegExp]';
+var is = ansuz.is = function (a,b){
+    /* alias for equality, for when you want to curry */
+    return a === b;
 };
 
-var find = ansuz.find = function (map, path) {
-/* safely search for nested values in an object via a path */
-    return (map && path.reduce(function (p, n) {
-        return typeof p[n] !== 'undefined' && p[n];
-    }, map)) || undefined;
+var toString = ansuz.toString = function (obj) {
+/*  call toString on an object, best used for determining types */
+    return Object.prototype.toString.call(obj);
 };
 
-var count = ansuz.count = function (map, key, inc) {
-/* safely increment a value in a map by its key by one or an optional number */
-    if (map) {
-        var val = map[key] || 0;
-        return map[key] = typeof(inc) === 'number'?
-            (val) + inc:
-            typeof(inc) === 'function'?
-                inc(val):
-                val + 1;
-    }
-    return false;
+var compose = ansuz.compose = function (f,g){
+/* given two unary functions, return a new function which
+    returns the result of the first passed to the second */
+    return function(x){
+        return g(f(x));
+    };
 };
 
 var fixN = ansuz.fixN = function (f,a,n) {
@@ -57,8 +49,40 @@ var fix2 = ansuz.fix2 = function (f,b) {
     };
 };
 
+// compose(toString, fix1(is, '[object Array]'));
+var isArray = ansuz.isArray = function (obj) {
+    //[toString]
+/*    Check if an object is an array */
+    return toString(obj)==='[object Array]';
+};
+
+// compose(toString, fix1(is, '[object RegExp]'));
+var isRegExp = ansuz.isRegExp = function (obj) {
+/* test if an object is a regular expression */
+    //[toString]
+    return toString(obj) === '[object RegExp]';
+};
+
+var find = ansuz.find = function (map, path) {
+/* safely search for nested values in an object via a path */
+    return (map && path.reduce(function (p, n) {
+        return typeof p[n] !== 'undefined' && p[n];
+    }, map)) || undefined;
+};
+
+var count = ansuz.count = function (map, key, inc) {
+/* safely increment a value in a map by its key by one or an optional number */
+    if (!map) { return false; }
+    var val = map[key] || 0;
+    return map[key] = typeof(inc) === 'number'?
+        (val) + inc:
+        typeof(inc) === 'function'?
+            inc(val):
+            val + 1;
+};
+
 var negate = ansuz.negate = function (p) {
-/* return the inverse of a predicate */
+/* given a predicate, return a new predicate which is its inverse */
     return function(x){
         return !p(x);
     };
@@ -71,37 +95,35 @@ var invert = ansuz.invert = function (f) {
     };
 };
 
-var every = ansuz.every = function (E, f) {
-    return !E.some(function (e, i) {
-        return !(typeof(f) === 'function'?
-            f(e, i, E):
-            e);
-    });
-};
-
 var some = ansuz.some = function (O, f) {
+/* test if some element in a structure satisfies a predicate */
+    //[isArray]
     if (!O) { return false; }
     if (isArray(O)) { return O.some(f); }
     else if (typeof(O) === 'object') {
         return Object.keys(O).some(function (k, i) {
-            return f(O[k], k);
+            return f(O[k], k, O);
         });
     }
     else { return false; }
 };
 
-var compose = ansuz.compose = function (f,g){
-/* chain two unary functions */
-    return function(x){
-        return g(f(x));
-    };
+var every = ansuz.every = function (E, f) {
+/* test if every element in a structure satisfies a predicate */
+    //[some,identity]
+    f = typeof(f) === 'function'? f: identity;
+    return !some(E, function (e, i, E) {
+        return !f(e, i, E);
+    });
 };
 
 var add = ansuz.add = function (a, b) {
+/* add two numbers */
     return a + b;
 };
 
 var subtract = ansuz.subtract = function (a, b) {
+/* subtract two numbers */
     return a - b;
 };
 
@@ -109,6 +131,12 @@ var sum = ansuz.sum = function (A) {
     //[add]
 /* sum an array of integers */
     return A.reduce(add, 0);
+};
+
+var mean = ansuz.mean = function (A) {
+/* take the mean (average) of a list of numbers */
+    //[sum]
+    return sum(A) / A.length;
 };
 
 var range = ansuz.range = function (a,b){
@@ -122,6 +150,7 @@ var range = ansuz.range = function (a,b){
 };
 
 var least = ansuz.least = function (A) {
+/* return the smallest number in a list */
     if (!A || !A.length) { return undefined; }
     return A.reduce(function (a, b) {
         return Math.min(a, b);
@@ -129,6 +158,7 @@ var least = ansuz.least = function (A) {
 };
 
 var most = ansuz.most = function (A) {
+/* return the greatest number in a list */
     if (!A || !A.length) { return undefined; }
     return A.reduce(function (a, b) {
         return Math.max(a, b);
@@ -141,6 +171,7 @@ var nullArray = ansuz.nullArray = function (n){
 };
 
 var array = ansuz.array = function (n, v) {
+/* (n, v) fill an 'n' element array with 'v', which can be a function */
     var a = new Array(n);
     if (typeof(v) === 'function') {
         return a.fill().map(v);
@@ -293,17 +324,15 @@ var log = ansuz.log = function(a,b){
     return Math.log(a)/Math.log(b);
 };
 
-var is = ansuz.is = function (a,b){
-    /* alias for equality, for when you want to curry */
-    return a === b;
-};
-
 var intersection = ansuz.intersection = function(A,B){
+/* (A, B) return all elements of a list 'A' which exist in 'B' */
     //[fix1,exists]
     return A.filter(fix1(exists,B));
 };
 
+// FIXME probably not what you want
 var difference = ansuz.difference = function(A,B){
+/* (A, B) return distinct elements from lists A and B */
     //[exists]
     return A.filter(function(a){
         return !exists(B,a);
@@ -313,6 +342,7 @@ var difference = ansuz.difference = function(A,B){
 };
 
 var superset = ansuz.superset = function(A,B){
+/* (A, B) return true if A is a superset of B */
     //[negate,fix1,exists]
     var b=B.filter(negate(fix1(exists,A)));
     var a=A.filter(negate(fix1(exists,B)));
@@ -320,10 +350,11 @@ var superset = ansuz.superset = function(A,B){
 };
 
 var subset = ansuz.subset = function(A,B){
+/* (A, B) return true if A is a subset of B */
     //[negate,fix1,exists]
     var x=A.filter(negate(fix1(exists,B))).length;
     var y=B.filter(negate(fix1(exists,A))).length;
-    return !x && y;
+    return x === 0 && y > 0;
 };
 
 var stdDev = ansuz.stdDev = function (A){
@@ -673,6 +704,9 @@ var docString = ansuz.docString = function(f){
 };
 
 var globs = ansuz.globs = function(D,L){
+/* given a list of function names and an ansuz-annotated module,
+    return a list of global dependencies
+*/
     //[keys]
     var G={};
     D.map(function(d){ // for every function name in the list of dependencies
@@ -687,7 +721,10 @@ var globs = ansuz.globs = function(D,L){
     return keys(G);
 };
 
-var deps = ansuz.deps = function(D,L){ 
+var deps = ansuz.deps = function(D,L){
+/* given a list of function names and an ansuz-annotated module,
+    return a list of local dependencies
+*/
     // a list of deps and an optional lib
     //[keys,vals,unique,flatten] // functions must be annotated like so.
     var L=L||ansuz; // use this for other compliant libraries, default to ansuz
@@ -720,6 +757,10 @@ var deps = ansuz.deps = function(D,L){
     return keys(C);    
 };
 
+/* FIXME correct boilerplate to:
+1. not dump onto the global
+2. support UMD
+*/
 var compile = ansuz.compile = function(D,L,T,G){
     /* compile requires at least one argument, an array of dependencies (strings)
          each dependency is the name of a function that has been imported into the current scope.
@@ -765,6 +806,10 @@ if(typeof module!=='undefined')
 };
 
 var autocompile = ansuz.autocompile = function(D,L,T){
+/* given a list of function names, a module, and a module title,
+    compile a source-string which includes all necessary functions
+*/
+
     //[glob,deps,compile]
     //{fs}
     L=L||ansuz;
