@@ -221,12 +221,18 @@ Equal(
 Assert($.superset([0,1,2],[1,2]));
 Refute($.superset([0],[1]));
 
+// every element of [1,2] exists in [0,1,2,3,4]
 Assert($.subset([1,2],[0,1,2,3,4]));
 
 Assert($.every([1,2,3]));
 Refute($.every([0,1,2]));
 Assert($.every([15,1.5,0x00], function (n) {
     return !isNaN(n);
+}));
+
+// TODO test 'every' on objects
+Assert($.every({x: 5, y: 7, z: 0}, function (e, i) {
+    return !isNaN(e) && i.toLowerCase() === i;
 }));
 
 Refute($.some({
@@ -246,4 +252,13 @@ Assert($.some([
 Equal(
     [3, 5, 1].sort($.invert($.subtract)),
     [5, 3, 1]);
+
+// check that every function has a docString
+Equal(
+    $.keys($).length,
+    $.keys($).map(function (k) {
+        return $.docString($[k]) || console.log("function [%s] is missing a docString", k);
+    }).filter($.identity).length,
+    "Check that every function has a doctring"
+    );
 
