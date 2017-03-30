@@ -330,15 +330,16 @@ var intersection = ansuz.intersection = function(A,B){
     return A.filter(fix1(exists,B));
 };
 
-// FIXME probably not what you want
 var difference = ansuz.difference = function(A,B){
+/*  (A, B) return all elements in A which are not in B */
+    //[negate,fix1,exists]
+    return A.filter(negate(fix1(exists, B)));
+};
+
+var distinction = ansuz.distinction = function (A, B) {
 /* (A, B) return distinct elements from lists A and B */
-    //[exists]
-    return A.filter(function(a){
-        return !exists(B,a);
-    }).concat(B.filter(function(b){
-        return !exists(A,b);
-    }));
+    //[difference]
+    return difference(A, B).concat(difference(B, A));
 };
 
 var superset = ansuz.superset = function(A,B){
