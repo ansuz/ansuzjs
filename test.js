@@ -267,3 +267,18 @@ Equal(
     "Check that every function has a doctring"
     );
 
+// check that no line of the code is longer than 80 characters
+Refute((function () {
+    var tooLong = function (line) {
+        return line.length > 80;
+    };
+
+    var exceeded = [];
+    $.keys($).forEach(function (k) {
+        if (!$[k].toString().split('\n').filter(tooLong).length) { return; }
+        console.log("a line in [%s] is > 80 characters", k);
+        exceeded.push(k);
+    });
+    return exceeded.length;
+}()));
+
