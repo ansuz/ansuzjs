@@ -95,8 +95,8 @@ Equal(
 );
 
 Equal(
-  $.unique($.shuffle([0,1,2,3]))
-  ,['0','1','2','3']
+  $.unique($.shuffle([0,1,2,1,3,2,0,3])).sort($.subtract),
+  [0,1,2,3]
 );
 
 Equal(

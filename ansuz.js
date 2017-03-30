@@ -665,16 +665,13 @@ var choose = ansuz.choose = function(A){
     return A[die(A.length)];
 };
 
-
 var unique = ansuz.unique = function(A){
-    //[keys]
-/*    Accept an array
-        return a copied array with duplicate elements removed 
-        WARNING:: returns values as strings!!!
-        */
-    var U={};
-    A.map(function(x){U[x]=true;});
-    return keys(U);
+/*  Given a list, return a new list of deduplicated elements
+    (by strict equality) */
+    //[fix1,addIfAbsent]
+    var B = [];
+    A.forEach(fix1(addIfAbsent, B));
+    return B;
 };
 
 var weightedArray = ansuz.weightedArray = function(C){
