@@ -263,10 +263,9 @@ var exists = ansuz.exists = function (A,e){
 };
 
 var addIfAbsent = ansuz.addIfAbsent = function(A,e,f,n){
-    /*  test whether an element 'e' is in an array 'A'
-        if it is not, add it
-            and pass it to a callback 'f', if f is a function
-    */
+/*  (A, e, f, n) Given an list and an item, push the element to the list
+    if it is not already present. Optionally provide two callbacks: (f, n).
+    f is called with e if e is absent. Otherwise n is called with e. */
     if(A.indexOf(e) === -1){
         A.push(e);
         if(typeof f === 'function'){
