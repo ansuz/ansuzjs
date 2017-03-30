@@ -408,15 +408,15 @@ var stateful = ansuz.stateful = function (f,c){
 
 var memo = ansuz.memo = function (f,c){
 /*    accept a function and return a memoizing generator */
-    // initialize the cache with an empty object if it was not passed as an argument
+    // initialize the cache with an empty object if one was not passed
     c=c||{};
     // if the cache does not contain 'i' (its index) initialize it as 'zero'
     c.i=c.i||0;
-    // the memoization process depends on an array which can be filled and referenced
+    // memoization depends on an array which can be filled and referenced
     c.memo=c.memo||[];
     // c.last stores the last value which was modified
     c.last=c.last||null;
-    // using c.f, you can reference the initial function which was passed (and recurse)
+    // using c.f, reference the initial function which was passed (and recurse)
     c.f=f;
 
     // c.fn is the new function which will be returned (which increments c.f)
@@ -491,7 +491,8 @@ var first = ansuz.first = function (lz,n,cond){
 
 var all = ansuz.all = function (lz,cond){
     //[fail]
-/* generate (and discard) all elements of a lazy list (potentially infinite!!!) */
+/* generate (and discard) all elements of a lazy list
+    (potentially infinite!!!) */
     cond=cond||ansuz.fail;
     while(1){
         if(cond(lz()))break;
@@ -500,7 +501,8 @@ var all = ansuz.all = function (lz,cond){
 
 var listall = ansuz.listall = function (lz,cond){
     //[fail]
-/* generate (and collect) all elements of a lazy list (potentially infinite!!!) */
+/* generate (and collect) all elements of a lazy list
+    (potentially infinite!!!) */
     cond=cond||ansuz.fail;
     var acc=[];
     while(1){
@@ -514,18 +516,19 @@ var listall = ansuz.listall = function (lz,cond){
 var filter = ansuz.filter = function (lz,sat,cond){
     //[fail]
 /*    return a function which takes a lazy list
-        and returns the next element from that list that matches some predicate */
+        and returns the next element from that list
+        that matches some predicate */
 
     sat=sat||function(x){return true;};
     cond=cond||ansuz.fail; // default to checking for an undefined result
     return function(){ // return a generator
         var res=lz(); // which increments the generator you gave it
-        while(!cond(res)){ // as long as it fails to meet some terminal condition
+        while(!cond(res)){ // while failing to meet some terminal condition
             if(sat(res)) // if you find a satisfactory result, return it
                 return res;
             res=lz(); // otherwise, keep on looking
         }
-        return; // return an undefined result if you reach a terminal condition
+        return; // return undefined if you reach a terminal condition
     };
 };
 
@@ -534,17 +537,17 @@ var cons = ansuz.cons = function (lz,next,cond,done){
 /* return a construct a generator which produces elements
         from the concatenation of two lazy lists */
 
-    next=next||ansuz.done; // return undefined if no second function is provided 
-    cond=cond||ansuz.fail; // default failure behaviour if no terminal condition
+    next=next||ansuz.done; // fall back to undefined if no successor
+    cond=cond||ansuz.fail; // failure behaviour if no terminal condition
     done=done||ansuz.done; // fail at the end of the second list
-    var f=function(){return lz();}; // start by fetching elements from the first list
+    var f=function(){return lz();}; // fetch elements from the first list
     var failed=false; // this keeps us from an infinite loop
     var fn=function(){ // the generator we will return
         var res=f(); // get the first result
         if(cond(res)&&failed){ // if we've failed twice, then we're done
             return; // return an undefined result
         }else if(cond(res)){ // otherwise, if we fail, try moving on
-            f=function(){return next();} // our generator now uses the second list
+            f=function(){return next();} // now use the second list
             failed=true; // but remember that we failed once
             return fn(); // return the next element
         }else
@@ -553,17 +556,18 @@ var cons = ansuz.cons = function (lz,next,cond,done){
     return fn; // return the handler function
 }
 
-var chain = ansuz.chain = function (F,cond,done){ 
+var chain = ansuz.chain = function (F,cond,done){
     //[fail,done,cons]
-/* chain together an array of lazy generators */ 
+/* chain together an array of lazy generators */
     cond=cond||ansuz.fail;
     done=done||ansuz.done;
 
     var fn=F.concat(done) // add done to the end
         .reverse() // we need to start from the end
-            // since the nth function needs to be passed as the 'next' to the (n-1)th
+        // the nth function needs to be passed as the 'next' to the (n-1)th
         .reduce(function(next,current){
-            return ansuz.cons(current,next,cond,done); // chain each function together
+            // chain function together
+            return ansuz.cons(current,next,cond,done);
         },function(){});
     return fn; // return the lazy handler you've produced.
 };
@@ -578,7 +582,7 @@ var combinatorial = ansuz.combinatorial = function (f,g,cond,done){
     var fz=either(f); // the parent function
     var failed=false; // track if the parent function has failed
     var par=function(){ // this is the parent function handler
-        temp=fz(); // it increments the parent function and stores the value in temp
+        temp=fz(); // increment the parent function and store the value in temp
         if(cond(temp)){ // if the parent function has failed..
             failed=true; // indicate that
             return; // and return
@@ -594,7 +598,7 @@ var combinatorial = ansuz.combinatorial = function (f,g,cond,done){
             par(); // regenerate the child array
             return fn(); // return the next child value
         }else{ // otherwise.. 
-            return [temp,res]; // return the current combined values of parent and child
+            return [temp,res]; // return combined parent and child values
         }
     }; // end of generator function
     return fn; // now return it and start using it
@@ -706,13 +710,13 @@ var globs = ansuz.globs = function(D,L){
 */
     //[keys]
     var G={};
-    D.map(function(d){ // for every function name in the list of dependencies
+    // for every function name in the list of dependencies
+    D.map(function(d){
         L[d].toString() // find the source
-            .replace(/\/\/\{.*\}/,function(s){ // for every such source
-                s.slice(3,-1).split(",") // find global libs annotated with curly braces
-                    .map(function(g){ 
-                        G[g]=true;
-                    });
+                // for every such source
+            .replace(/\/\/\{.*\}/,function(s){
+                // find global libs annotated with curly braces
+                s.slice(3,-1).split(",").map(function(g){ G[g]=true; });
             });
     });
     return keys(G);
@@ -759,16 +763,19 @@ var deps = ansuz.deps = function(D,L){
 2. support UMD
 */
 var compile = ansuz.compile = function(D,L,T,G){
-    /* compile requires at least one argument, an array of dependencies (strings)
-         each dependency is the name of a function that has been imported into the current scope.
-         it will optionally accept a number of other options:
-            a library L (an object), from which the functions will be extracted
-                this defaults to the current library (ansuz)
-            a title T (a string), to which the resulting library will refer
-                this defaults to '$'
-            a list of globally accessible libraries that will be required G (an array)
-                this defaults to []
-         returns a string */
+/* compile requires at least one argument, an array of dependencies (strings)
+     each dependency is the name of a function
+        that has been imported into the current scope.
+
+ it will optionally accept a number of other options:
+    a library L (an object), from which the functions will be extracted
+        this defaults to the current library (ansuz)
+    a title T (a string), to which the resulting library will refer
+        this defaults to '$'
+    a list of globally accessible libraries that will be required G (an array)
+        this defaults to []
+
+returns a string */
 
     //[swap]
     L=L||ansuz;
