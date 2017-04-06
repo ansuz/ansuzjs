@@ -7,7 +7,7 @@ var identity = ansuz.identity = function (x) {
     return x;
 };
 
-var is = ansuz.is = function (a,b){
+var is = ansuz.is = function (a,b) {
     /* alias for equality, for when you want to curry */
     return a === b;
 };
@@ -17,7 +17,7 @@ var toString = ansuz.toString = function (obj) {
     return Object.prototype.toString.call(obj);
 };
 
-var compose = ansuz.compose = function (f,g){
+var compose = ansuz.compose = function (f,g) {
 /* given two unary functions, return a new function which
     returns the result of the first passed to the second */
     return function(x){
@@ -49,16 +49,18 @@ var fix2 = ansuz.fix2 = function (f,b) {
     };
 };
 
-// compose(toString, fix1(is, '[object Array]'));
 var isArray = ansuz.isArray = function (obj) {
     //[toString]
 /*    Check if an object is an array */
     return toString(obj)==='[object Array]';
 };
 
-// compose(toString, fix1(is, '[object RegExp]'));
 var isRegExp = ansuz.isRegExp = function (obj) {
-/* test if an object is a regular expression */
+/* test if an object is a regular expression
+
+
+equivalent of compose(toString, fix1(is, '[object RegExp]'));
+*/
     //[toString]
     return toString(obj) === '[object RegExp]';
 };
@@ -139,7 +141,7 @@ var mean = ansuz.mean = function (A) {
     return sum(A) / A.length;
 };
 
-var range = ansuz.range = function (a,b){
+var range = ansuz.range = function (a,b) {
 /* generate an inclusive range between two integers */
     var temp=[];
     b = b || a;
@@ -165,7 +167,7 @@ var most = ansuz.most = function (A) {
     });
 };
 
-var nullArray = ansuz.nullArray = function (n){
+var nullArray = ansuz.nullArray = function (n) {
 /* produce an array of nulls of length n */
     return new Array(n).fill(null);
 };
@@ -179,14 +181,14 @@ var array = ansuz.array = function (n, v) {
     return a.fill(v);
 };
 
-var flatten = ansuz.flatten = function (AA){
+var flatten = ansuz.flatten = function (AA) {
 /* flatten an array of arrays into a single array */
     return AA.reduce(function(A,B){
         return A.concat(B);
     },[]);
 };
 
-var carte = ansuz.carte = function (f,A,B){
+var carte = ansuz.carte = function (f,A,B) {
     //[fix1]
 /* map a binary function over the cartesian product of arrays */
     return A.map(function(a){
@@ -194,13 +196,13 @@ var carte = ansuz.carte = function (f,A,B){
     });
 };
 
-var carteSquare = ansuz.carteSquare = function (f,A){
+var carteSquare = ansuz.carteSquare = function (f,A) {
     //[carte]
 /* easy wrapper around carte for when you want a square */
     return carte(f,A,A);
 };
 
-var comb=ansuz.comb=function (f,A){
+var comb = ansuz.comb = function (f,A) {
     //[fix1]
  /*    produce a heterogenous array consisting of all
         unique pairwise combinations of elements from an array */
@@ -218,12 +220,12 @@ var comb=ansuz.comb=function (f,A){
     });
 };
 
-var die = ansuz.die = function (r){
+var die = ansuz.die = function (r) {
 /* simulated die */
     return Math.floor(Math.random()*r);
 };
 
-var shuffle = ansuz.shuffle = function (A){
+var shuffle = ansuz.shuffle = function (A) {
 /* shuffle an array (destructive, use slice for pure functional) */
     var i=A.length;
     while(i){
@@ -235,14 +237,14 @@ var shuffle = ansuz.shuffle = function (A){
     return A;
 };
 
-var cut = ansuz.cut = function (A,n){
+var cut = ansuz.cut = function (A,n) {
 /* cut an array in two and return the two halves, concatenated in reverse */
     n=Math.min(n,A.length);
     A=A.slice(n).concat(A.slice(0,n));
     return A;
 };
 
-var exists = ansuz.exists = function (A,e){
+var exists = ansuz.exists = function (A,e) {
     //[isArray]
     /*  test if an element exists in an array 
         if the provided argument is an object, instead test if one of the keys
@@ -262,7 +264,7 @@ var exists = ansuz.exists = function (A,e){
     }
 };
 
-var addIfAbsent = ansuz.addIfAbsent = function(A,e,f,n){
+var addIfAbsent = ansuz.addIfAbsent = function (A,e,f,n) {
 /*  (A, e, f, n) Given an list and an item, push the element to the list
     if it is not already present. Optionally provide two callbacks: (f, n).
     f is called with e if e is absent. Otherwise n is called with e. */
@@ -278,31 +280,32 @@ var addIfAbsent = ansuz.addIfAbsent = function(A,e,f,n){
     }
 };
 
-var vals=ansuz.vals=function (O){
+var vals = ansuz.vals = function (O) {
 /* return all the values in an object */
     return Object.keys(O).map(function(k){
         return O[k];
     });
 };
 
-var keys = ansuz.keys = function (O){
+var keys = ansuz.keys = function (O) {
 /* return all the keys in an object */
     return Object.keys(O);
 };
 
-var vals = ansuz.vals = function (O){
+var vals = ansuz.vals = function (O) {
 /* return all the values in an object */
     return keys(O).map(function(k){
         return O[k];
     });
 };
 
-var clone = ansuz.clone = function(A){
+var clone = ansuz.clone = function (A) {
 /* clone return a clone of an objet */
     return JSON.parse(JSON.stringify(A));
 };
 
-var merge = ansuz.merge = function (X,B,f){
+// FIXME make this more than a shallow merge
+var merge = ansuz.merge = function (X,B,f) {
     //[clone,keys]
  /*    merge two objects, 
         resolve conflicts with a third, optional argument, a function f
@@ -318,18 +321,18 @@ var merge = ansuz.merge = function (X,B,f){
     return A;
 };
 
-var log = ansuz.log = function(a,b){
+var log = ansuz.log = function (a,b) {
     /* arbitrary base logarithm, since I always seem to end up needing it */
     return Math.log(a)/Math.log(b);
 };
 
-var intersection = ansuz.intersection = function(A,B){
+var intersection = ansuz.intersection = function (A,B) {
 /* (A, B) return all elements of a list 'A' which exist in 'B' */
     //[fix1,exists]
     return A.filter(fix1(exists,B));
 };
 
-var difference = ansuz.difference = function(A,B){
+var difference = ansuz.difference = function (A,B) {
 /*  (A, B) return all elements in A which are not in B */
     //[negate,fix1,exists]
     return A.filter(negate(fix1(exists, B)));
@@ -341,7 +344,7 @@ var distinction = ansuz.distinction = function (A, B) {
     return difference(A, B).concat(difference(B, A));
 };
 
-var superset = ansuz.superset = function(A,B){
+var superset = ansuz.superset = function (A,B) {
 /* (A, B) return true if A is a superset of B */
     //[negate,fix1,exists]
     var b=B.filter(negate(fix1(exists,A)));
@@ -349,7 +352,7 @@ var superset = ansuz.superset = function(A,B){
     return b.length==0 && A.length > 0;
 };
 
-var subset = ansuz.subset = function(A,B){
+var subset = ansuz.subset = function (A,B) {
 /* (A, B) return true if A is a subset of B */
     //[negate,fix1,exists]
     var x=A.filter(negate(fix1(exists,B))).length;
@@ -357,7 +360,7 @@ var subset = ansuz.subset = function(A,B){
     return x === 0 && y > 0;
 };
 
-var stdDev = ansuz.stdDev = function (A){
+var stdDev = ansuz.stdDev = function (A) {
     //[sum]
 /* take the standard deviation of an array of numbers */
     var S = sum(A),
@@ -369,7 +372,7 @@ var stdDev = ansuz.stdDev = function (A){
     return Math.pow(variance,0.5);
 };
 
-var schedule = ansuz.schedule = function (f,t,n){
+var schedule = ansuz.schedule = function (f,t,n) {
 /* execute a function f every t seconds, to a maximum of n times */
     n = n || -1;
     n -= 1;
@@ -385,7 +388,7 @@ var schedule = ansuz.schedule = function (f,t,n){
     }
 };
 
-var forget = ansuz.forget = function (f,i,c){
+var forget = ansuz.forget = function (f,i,c) {
 /*    accept a function and return a forgetful generator */
     // make sure the cache is initialized, 'i' has a default value of 0
     c=c||{i:i||0};
@@ -396,7 +399,7 @@ var forget = ansuz.forget = function (f,i,c){
     };
 };
 
-var stateful = ansuz.stateful = function (f,c){
+var stateful = ansuz.stateful = function (f,c) {
 /*    accept a function and return a stateful generator */
     c=c||{};
     return function(cache){
@@ -406,7 +409,7 @@ var stateful = ansuz.stateful = function (f,c){
     };
 };
 
-var memo = ansuz.memo = function (f,c){
+var memo = ansuz.memo = function (f,c) {
 /*    accept a function and return a memoizing generator */
     // initialize the cache with an empty object if one was not passed
     c=c||{};
@@ -439,7 +442,7 @@ var memo = ansuz.memo = function (f,c){
     return c.fn;
 };
 
-var either = ansuz.either = function (a){
+var either = ansuz.either = function (a) {
 /* accept an array and return a function which returns successive elements */
     var i=0;
     return function(){
@@ -447,7 +450,7 @@ var either = ansuz.either = function (a){
     };
 };
 
-var cycle = ansuz.cycle = function (a){
+var cycle = ansuz.cycle = function (a) {
 /* accept an array and cycle through its elements */
     var i=0,l=a.length;
     return function(){
@@ -455,7 +458,7 @@ var cycle = ansuz.cycle = function (a){
     };
 };
 
-var fcycle = ansuz.fcycle = function (a){
+var fcycle = ansuz.fcycle = function (a) {
  /*    accept an array of functions and return a generator
         which cycles through executing each function */
     var F = cycle(a);
@@ -464,7 +467,7 @@ var fcycle = ansuz.fcycle = function (a){
     };
 };
 
-var fail = ansuz.fail = function (x){
+var fail = ansuz.fail = function (x) {
 /* global default fail condition for generators */
     return typeof x==="undefined";
 };
@@ -474,7 +477,7 @@ var done = ansuz.done = function (){
     return;
 };
 
-var first = ansuz.first = function (lz,n,cond){
+var first = ansuz.first = function (lz,n,cond) {
     //[fail]
 /* a little misleading, get the next N elements from a generator */
     var i=0; // what element are we currently working on?
@@ -489,7 +492,7 @@ var first = ansuz.first = function (lz,n,cond){
     return acc;
 };
 
-var all = ansuz.all = function (lz,cond){
+var all = ansuz.all = function (lz,cond) {
     //[fail]
 /* generate (and discard) all elements of a lazy list
     (potentially infinite!!!) */
@@ -499,7 +502,7 @@ var all = ansuz.all = function (lz,cond){
     }
 };
 
-var listall = ansuz.listall = function (lz,cond){
+var listall = ansuz.listall = function (lz,cond) {
     //[fail]
 /* generate (and collect) all elements of a lazy list
     (potentially infinite!!!) */
@@ -513,7 +516,7 @@ var listall = ansuz.listall = function (lz,cond){
     return acc;
 };
 
-var filter = ansuz.filter = function (lz,sat,cond){
+var filter = ansuz.filter = function (lz,sat,cond) {
     //[fail]
 /*    return a function which takes a lazy list
         and returns the next element from that list
@@ -532,7 +535,7 @@ var filter = ansuz.filter = function (lz,sat,cond){
     };
 };
 
-var cons = ansuz.cons = function (lz,next,cond,done){
+var cons = ansuz.cons = function (lz,next,cond,done) {
     //[done,fail]
 /* return a construct a generator which produces elements
         from the concatenation of two lazy lists */
@@ -554,9 +557,9 @@ var cons = ansuz.cons = function (lz,next,cond,done){
             return res; // otherwise, we must have a good result, return it
     };
     return fn; // return the handler function
-}
+};
 
-var chain = ansuz.chain = function (F,cond,done){
+var chain = ansuz.chain = function (F,cond,done) {
     //[fail,done,cons]
 /* chain together an array of lazy generators */
     cond=cond||ansuz.fail;
@@ -572,7 +575,7 @@ var chain = ansuz.chain = function (F,cond,done){
     return fn; // return the lazy handler you've produced.
 };
 
-var combinatorial = ansuz.combinatorial = function (f,g,cond,done){
+var combinatorial = ansuz.combinatorial = function (f,g,cond,done) {
     //[fail,done,either]
 /* an attempt at backtracking */
     cond=cond||ansuz.fail; // default to a standard fail condition
@@ -604,7 +607,7 @@ var combinatorial = ansuz.combinatorial = function (f,g,cond,done){
     return fn; // now return it and start using it
 };
 
-var splice = ansuz.splice = function (string,index,ins){
+var splice = ansuz.splice = function (string,index,ins) {
 /* splice into a string as you would with an array */
     ins=ins||"";
     var A=index?string.slice(0,index):"";
@@ -612,7 +615,7 @@ var splice = ansuz.splice = function (string,index,ins){
     return A+ins+B;
 };
 
-var swap = ansuz.swap = function (s,o,r){
+var swap = ansuz.swap = function (s,o,r) {
 /* replace tokens in a string with their definitions in a dictionary 
      swap is deprecated, use substitute instead */
     r=r||/{\w+}/g;
@@ -621,7 +624,7 @@ var swap = ansuz.swap = function (s,o,r){
     });
 };
 
-var substitute = ansuz.substitute = function(opt){
+var substitute = ansuz.substitute = function (opt) {
 /* substitute is a more flexible version of 'swap' */
     if(!opt)return;
     var pattern=opt.pattern||/\{[\s\S]+\}/g;
@@ -632,7 +635,7 @@ var substitute = ansuz.substitute = function(opt){
     return opt.source.replace(pattern,callback);
 };
 
-var ngraphs = ansuz.ngraphs = function(S, n, d, C){
+var ngraphs = ansuz.ngraphs = function (S, n, d, C) {
 /* accept an array of strings and generate weighted directional graph */
     if (isArray(S)) {
         S = S.slice(0);
@@ -655,7 +658,7 @@ var ngraphs = ansuz.ngraphs = function(S, n, d, C){
     return C;
 };
 
-var choose = ansuz.choose = function(A){
+var choose = ansuz.choose = function (A) {
     //[die,keys]
 /*    choose accepts an array, string, or object
         it chooses and returns an element, attribute, or character */
@@ -669,7 +672,7 @@ var choose = ansuz.choose = function(A){
     return A[die(A.length)];
 };
 
-var unique = ansuz.unique = function(A){
+var unique = ansuz.unique = function (A) {
 /*  Given a list, return a new list of deduplicated elements
     (by strict equality) */
     //[fix1,addIfAbsent]
@@ -678,7 +681,7 @@ var unique = ansuz.unique = function(A){
     return B;
 };
 
-var weightedArray = ansuz.weightedArray = function(C){
+var weightedArray = ansuz.weightedArray = function (C) {
     //[flatten,nullArray,keys]
 /*    weightedArray accepts an object C, in which keys correspond to integers
         each integer corresponding to the occurences of that key in a corpus,
@@ -690,7 +693,7 @@ var weightedArray = ansuz.weightedArray = function(C){
     }));
 };
 
-var docString = ansuz.docString = function(f){
+var docString = ansuz.docString = function (f) {
     /*
         accepts a function
         returns the first block comment in the function's source text
@@ -704,7 +707,7 @@ var docString = ansuz.docString = function(f){
             .join('\n');
 };
 
-var globs = ansuz.globs = function(D,L){
+var globs = ansuz.globs = function (D,L) {
 /* given a list of function names and an ansuz-annotated module,
     return a list of global dependencies
 */
@@ -712,7 +715,7 @@ var globs = ansuz.globs = function(D,L){
     var G={};
     // for every function name in the list of dependencies
     D.map(function(d){
-        L[d].toString() // find the source
+        L[d] && L[d].toString() // find the source
                 // for every such source
             .replace(/\/\/\{.*\}/,function(s){
                 // find global libs annotated with curly braces
@@ -722,7 +725,7 @@ var globs = ansuz.globs = function(D,L){
     return keys(G);
 };
 
-var deps = ansuz.deps = function(D,L){
+var deps = ansuz.deps = function (D,L) {
 /* given a list of function names and an ansuz-annotated module,
     return a list of local dependencies
 */
@@ -755,14 +758,10 @@ var deps = ansuz.deps = function(D,L){
     flatten(D.map(function(d){
         return R[d];
     })).map(getDepsOf);
-    return keys(C);    
+    return keys(C);
 };
 
-/* FIXME correct boilerplate to:
-1. not dump onto the global
-2. support UMD
-*/
-var compile = ansuz.compile = function(D,L,T,G){
+var compile = ansuz.compile = function (D,L,T,G) {
 /* compile requires at least one argument, an array of dependencies (strings)
      each dependency is the name of a function
         that has been imported into the current scope.
@@ -783,16 +782,28 @@ returns a string */
     G=G||[];
 
     // boilerplate
-    var plate=function(){/*var {TITLE}={};
+    var plate=function(){/*
+(function () {
+
+var {TITLE}={};
 
 {BODY}
 
-if(typeof module!=='undefined')
-    module.exports={TITLE}
+if(typeof module !== 'undefined') {
+    module.exports = {TITLE};
+} else if (typeof(define) === 'function' && define.amd) {
+    define(function () {
+        return {TITLE};
+    });
+} else {
+    window.{TITLE} = {TITLE};
+}
+
+}());
 */}.toString().slice(14,-3);
 
     var B=D.map(function(d){
-        return swap("var {FUNCTION}={TITLE}.{FUNCTION}={SOURCE};"
+        return swap("var {FUNCTION} = {TITLE}.{FUNCTION} = {SOURCE};"
             ,{'{TITLE}':T
                 ,'{FUNCTION}':d
                 ,'{SOURCE}':L[d].toString()
@@ -809,7 +820,7 @@ if(typeof module!=='undefined')
         });
 };
 
-var autocompile = ansuz.autocompile = function(D,L,T){
+var autocompile = ansuz.autocompile = function (D,L,T) {
 /* given a list of function names, a module, and a module title,
     compile a source-string which includes all necessary functions
 */
@@ -824,7 +835,7 @@ var autocompile = ansuz.autocompile = function(D,L,T){
 };
 
 if(typeof module !== 'undefined') {
-    module.exports=ansuz;
+    module.exports = ansuz;
 } else if (typeof(define) === 'function' && define.amd) {
     define(function () {
         return ansuz;
