@@ -25,6 +25,17 @@ var compose = ansuz.compose = function (f,g) {
     };
 };
 
+var once = ansuz.once = function (f) {
+/* given a function, return a function wrapper which will will only call
+the original function once */
+    var called;
+    return function () {
+        if (called) { return; }
+        called = true;
+        f.apply(null, Array.prototype.slice.call(arguments));
+    };
+};
+
 var fixN = ansuz.fixN = function (f,a,n) {
 /* fix the nth argument of a function */
     n=n||0;
