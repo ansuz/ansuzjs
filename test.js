@@ -282,3 +282,6 @@ Refute((function () {
     return exceeded.length;
 }()));
 
+Equal(
+    $.listall(require('./examples/sets')([1, 2, 3, 4, 5, 6])).length,
+    64);
