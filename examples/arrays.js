@@ -21,9 +21,9 @@ console.log($.nullArray(10));
 
 console.log($.range(5));
 
-/* creating a pre-initialized array with values ranging from x to y)
+/* creating a pre-initialized array with values ranging from x to y) */
 
-console.log($.range(2.7));
+console.log($.range(2,7));
 
 /* finding only the even numbers in an array */
 
